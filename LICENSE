@@ -1,0 +1,202 @@
+STOCK ASSIST OPEN SOURCE LICENSE
+==================================
+
+Copyright (c) 2024 Vibhek Soni (@vibheksoni)
+All rights reserved.
+
+PREAMBLE
+--------
+
+This license governs the use of the Stock Assist software ("Software"), originally
+developed as a commercial Software-as-a-Service (SaaS) platform that successfully
+served over 40 active users in production. The Software is now released under this
+open source license to benefit the developer community while protecting the
+intellectual property and commercial interests of the original author.
+
+This license is based on the MIT License with additional terms specifically designed
+for commercial software being open-sourced. It balances the principles of open source
+development with the need to protect brand identity and ensure proper attribution.
+
+GRANT OF LICENSE
+----------------
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in the
+Software without restriction, including without limitation the rights to use, copy,
+modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+and to permit persons to whom the Software is furnished to do so, subject to the
+following conditions and limitations:
+
+MANDATORY CONDITIONS
+--------------------
+
+1. COPYRIGHT NOTICE PRESERVATION
+   The above copyright notice and this permission notice shall be included in all
+   copies or substantial portions of the Software.
+
+2. ATTRIBUTION REQUIREMENTS
+   a) PUBLIC REPOSITORIES: Any public repository containing this Software or
+      substantial portions thereof must include clear attribution to the original
+      author in the README file or primary documentation, formatted as:
+
+      "This project incorporates code from Stock Assist by @vibheksoni
+       Original repository: https://github.com/vibheksoni/stock-assist"
+
+   b) COMMERCIAL APPLICATIONS: Any commercial application or service utilizing
+      this Software must include attribution in a user-accessible location such
+      as an "About", "Credits", "Acknowledgments", or "Legal" section.
+
+   c) DERIVATIVE WORKS: All derivative works must maintain attribution to the
+      original Software and author.
+
+3. TRADEMARK AND BRANDING RESTRICTIONS
+   a) The name "Stock Assist" and all associated branding, logos, trademarks,
+      service marks, and trade names are explicitly EXCLUDED from this license.
+
+   b) You may NOT use the name "Stock Assist" or any confusingly similar names
+      (including but not limited to "StockAssist", "Stock-Assist", "Stock Assistant",
+      or variations thereof) for any commercial products, services, or offerings.
+
+   c) All derivative works and commercial applications must use distinct branding
+      and naming that clearly differentiates them from the original Software.
+
+   d) You may reference "Stock Assist" solely for the purpose of attribution as
+      required by this license.
+
+PERMITTED USES
+--------------
+
+Subject to the conditions above, you are granted the following rights:
+
+✓ Personal and educational use of the Software
+✓ Commercial use and monetization (with proper attribution and rebranding)
+✓ Modification, enhancement, and customization of the Software
+✓ Distribution of the Software and derivative works
+✓ Integration into proprietary software and services
+✓ Use as a foundation for new products and services
+✓ Offering consulting, development, or support services based on the Software
+✓ Creating and distributing educational content about the Software
+
+PROHIBITED USES
+---------------
+
+The following uses are explicitly prohibited:
+
+✗ Using "Stock Assist" or confusingly similar names for commercial purposes
+✗ Claiming original authorship or ownership of the Software
+✗ Removing, modifying, or obscuring copyright notices or attribution requirements
+✗ Using the original author's name or likeness for endorsement without permission
+✗ Misrepresenting the origin or authorship of the Software
+✗ Violating any third-party licenses incorporated in the Software
+
+COMMERCIAL USE GUIDELINES
+-------------------------
+
+This Software may be used for commercial purposes under the following conditions:
+
+1. REBRANDING REQUIREMENT: You must create and use your own unique brand identity,
+   including but not limited to product names, logos, domain names, and marketing
+   materials.
+
+2. ATTRIBUTION COMPLIANCE: You must comply with all attribution requirements
+   specified in this license.
+
+3. COMPETITIVE USE: You may create competing products or services using this
+   Software, provided you comply with all license terms.
+
+4. REVENUE GENERATION: You may charge fees, subscriptions, or other forms of
+   payment for products or services based on this Software.
+
+THIRD-PARTY COMPONENTS
+----------------------
+
+This Software incorporates various third-party components, each subject to their
+own license terms:
+
+- Flask Framework (BSD-3-Clause License)
+- SQLAlchemy ORM (MIT License)
+- Redis Database (BSD-3-Clause License)
+- MySQL Database (GPL-2.0 License)
+- Tailwind CSS (MIT License)
+- Google AI SDK (Apache-2.0 License)
+- Stripe SDK (MIT License)
+- Additional dependencies as listed in requirements.txt
+
+Users must ensure compliance with all applicable third-party licenses. The inclusion
+of GPL-licensed components may impose additional obligations on derivative works.
+
+PRODUCTION HERITAGE DISCLAIMER
+------------------------------
+
+This Software was originally developed and operated as a commercial SaaS platform
+with the following production credentials:
+
+- Served 40+ active paying users
+- Processed 15,000+ AI-powered financial queries
+- Maintained 99.8% uptime in production
+- Generated $1,200+ monthly recurring revenue at peak
+- Integrated with multiple payment processors and AI providers
+
+While the Software has been battle-tested in production, it is provided under this
+license "AS-IS" without any warranties or guarantees of performance, reliability,
+or suitability for any particular purpose.
+
+WARRANTY DISCLAIMER
+-------------------
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT. THE ORIGINAL AUTHOR MAKES NO REPRESENTATIONS
+OR WARRANTIES REGARDING THE SOFTWARE'S PERFORMANCE, RELIABILITY, SECURITY, OR
+SUITABILITY FOR ANY PARTICULAR USE CASE.
+
+LIMITATION OF LIABILITY
+-----------------------
+
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES
+OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE. THIS LIMITATION APPLIES TO ALL DAMAGES INCLUDING BUT NOT LIMITED TO
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES.
+
+INDEMNIFICATION
+---------------
+
+Users of this Software agree to indemnify and hold harmless the original author
+from any claims, damages, or liabilities arising from their use, modification, or
+distribution of the Software.
+
+TERMINATION
+-----------
+
+This license automatically terminates if you fail to comply with any of its terms
+and conditions. Upon termination, you must cease all use of the Software and
+destroy all copies in your possession or control.
+
+GOVERNING LAW
+-------------
+
+This license shall be governed by and construed in accordance with the laws of
+the jurisdiction where the original author resides, without regard to conflict
+of law principles.
+
+CONTACT INFORMATION
+-------------------
+
+For questions regarding this license, commercial use inquiries, or permission
+requests, please contact:
+
+GitHub: @vibheksoni
+Repository: https://github.com/vibheksoni/stock-assist
+Discord: 1codec
+
+ACKNOWLEDGMENT
+--------------
+
+By using this Software, you acknowledge that you have read, understood, and agree
+to be bound by the terms and conditions of this license.
+
+---
+
+Last Updated: May 2025
+License Version: 1.0

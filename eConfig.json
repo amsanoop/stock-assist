@@ -1,0 +1,24 @@
+{
+    "stripe-plans": {
+        "test": {
+            "pro": {
+                "product-id": "YOUR-TEST-PRO-PRODUCT-ID",
+                "db-name": "Pro"
+            },
+            "starter": {
+                "product-id": "YOUR-TEST-STARTER-PRODUCT-ID",
+                "db-name": "Starter"
+            }
+        },
+        "live": {
+            "pro": {
+                "product-id": "YOUR-LIVE-PRO-PRODUCT-ID",
+                "db-name": "Pro"
+            },
+            "starter": {
+                "product-id": "YOUR-LIVE-STARTER-PRODUCT-ID",
+                "db-name": "Starter"
+            }
+        }
+    }
+}

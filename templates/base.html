@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" itemscope itemtype="https://schema.org/WebPage">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>{% block title %}AI Stock Analysis & Trading Assistant | Real-Time Market Insights – StockAssist{% endblock %}</title>
+
+    <meta name="description" content="{% block meta_description %}Trade smarter with AI-powered stock insights. Get real-time analytics, chat with AI, and automate decisions. Start for free today!{% endblock %}">
+    <meta name="keywords" content="AI stock analysis, trading assistant, stock market AI, artificial intelligence trading, real-time stock analysis, AI financial advisor, stock predictions, market trends, investment strategies, algorithmic trading, financial technology, stock portfolio management, trading automation, market intelligence, stock price forecasting">
+    <meta name="author" content="StockAssist">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourdomain.com{{ request.path }}">
+    <meta property="og:title" content="{% block og_title %}AI Stock Analysis & Trading Assistant | Real-Time Market Insights – StockAssist{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Transform your trading with AI-powered stock analysis. Get real-time insights, chat with our AI about multiple stocks, and make data-driven decisions.{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{{ url_for('static', filename='images/og-image.png', _external=True) }}{% endblock %}">
+    <meta property="og:site_name" content="StockAssist">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="en_GB">
+    <meta property="og:rich_attachment" content="true">
+    <meta property="article:publisher" content="https://yourdomain.com">
+    <meta property="article:modified_time" content="{{ now.strftime('%Y-%m-%dT%H:%M:%S+00:00') if now is defined else '2023-01-01T12:00:00+00:00' }}">
+
+    <meta name="twitter:card"         content="summary_large_image">
+    <meta name="twitter:url"          content="https://yourdomain.com{{ request.path }}">
+    <meta name="twitter:title"        content="{% block twitter_title %}AI Stock Analysis & Trading Assistant | Real-Time Market Insights – StockAssist{% endblock %}">
+    <meta name="twitter:description"  content="{% block twitter_description %}Make smarter trading decisions with AI-powered stock analysis. Real-time insights, multi-stock chat, and predictive analytics.{% endblock %}">
+    <meta name="twitter:image"        content="{% block twitter_image %}{{ url_for('static', filename='images/TwitterCard.jpeg', _external=True) }}{% endblock %}">
+    <meta name="twitter:creator"      content="@YOUR-TWITTER-HANDLE">
+    <meta name="twitter:site"         content="@YOUR-TWITTER-HANDLE">
+    <meta property="og:image:alt"     content="StockAssist AI Stock Trading Assistant">
+    <meta name="twitter:image:alt"    content="AI-powered stock analysis tool">
+    <meta property="og:image:width"   content="1200">
+    <meta property="og:image:height"  content="630">
+    <meta name="twitter:image:width"  content="1200">
+    <meta name="twitter:image:height" content="600">
+
+    <link rel="canonical" href="https://yourdomain.com{{ request.path }}">
+    <link rel="alternate" hreflang="x-default" href="https://yourdomain.com{{ request.path }}">
+    <link rel="alternate" hreflang="en" href="https://yourdomain.com{{ request.path }}">
+    <link rel="alternate" hreflang="en-us" href="https://yourdomain.com{{ request.path }}">
+
+    <link rel="icon" type="image/x-icon"         href="{{ url_for('static', filename='icons/favicon.ico') }}">
+    <link rel="apple-touch-icon" sizes="57x57"   href="{{ url_for('static', filename='icons/apple-touch-icon-57x57.png') }}">
+    <link rel="apple-touch-icon" sizes="72x72"   href="{{ url_for('static', filename='icons/apple-touch-icon-72x72.png') }}">
+    <link rel="apple-touch-icon" sizes="76x76"   href="{{ url_for('static', filename='icons/apple-touch-icon-76x76.png') }}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ url_for('static', filename='icons/apple-touch-icon-114x114.png') }}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ url_for('static', filename='icons/apple-touch-icon-120x120.png') }}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ url_for('static', filename='icons/apple-touch-icon-144x144.png') }}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ url_for('static', filename='icons/apple-touch-icon-152x152.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='icons/apple-touch-icon-180x180.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
+    <link rel="mask-icon"                        href="{{ url_for('static', filename='icons/safari-pinned-tab.svg') }}" color="#4f46e5">
+
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="revisit-after" content="1 day">
+    <meta name="rating" content="General">
+    <meta name="geo.region" content="US">
+    <meta name="geo.position" content="37.7749;-122.4194">
+    <meta name="ICBM" content="37.7749, -122.4194">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="StockAssist">
+    <meta name="apple-mobile-web-app-title" content="StockAssist">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#4f46e5">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-TileColor" content="#4f46e5">
+    <meta name="msapplication-TileImage" content="{{ url_for('static', filename='icons/mstile-144x144.png') }}">
+    <meta name="msapplication-config" content="{{ url_for('static', filename='icons/browserconfig.xml') }}">
+    <meta name="language" content="English">
+    <meta name="copyright" content="StockAssist">
+    <meta name="distribution" content="Global">
+    <meta name="classification" content="Finance, Trading, Stocks, AI">
+    <meta name="owner" content="StockAssist">
+    <meta name="coverage" content="Worldwide">
+    <meta name="target" content="all">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta name="msvalidate.01" content="YOUR-MSVALIDATE-CODE" />
+    <meta name="yandex-verification" content="YOUR-YANDEX-VERIFICATION-CODE" />
+
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}" media="all">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pwa.css') }}" media="all">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/chat-toggle.css') }}" media="all">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" media="all">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://www.alphavantage.co">
+    <link rel="preload" href="{{ url_for('static', filename='icons/favicon.ico') }}" as="image" type="image/x-icon">
+    <link rel="preload" href="{{ url_for('static', filename='css/output.css') }}" as="style">
+
+    <!-- Google tag (gtag.js) -->
+    <!-- Google Analytics & Google Ads (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=YOUR-GOOGLE-ANALYTICS-ID"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=YOUR-GOOGLE-ADS-ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        // Google Analytics (GA4)
+        gtag('config', 'YOUR-GOOGLE-ANALYTICS-ID', {
+            'send_page_view': true,
+            'cookie_domain': 'yourdomain.com',
+            'cookie_flags': 'SameSite=None;Secure',
+            'user_id': '{{ current_user.id if current_user.is_authenticated else "" }}'
+        });
+
+        // Google Ads (AW)
+        gtag('config', 'YOUR-GOOGLE-ADS-ID');
+
+        {% if current_user.is_authenticated %}
+        gtag('set', 'user_properties', {
+            'user_id': '{{ current_user.id }}',
+            'subscription_type': '{{ current_user.subscription.name }}',
+            'messages_used': {{ current_user.daily_message_count }},
+            'images_used': {{ current_user.daily_image_count }}
+        });
+        {% endif %}
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "StockAssist",
+        "url": "https://yourdomain.com",
+        "description": "AI-powered stock analysis platform providing real-time trading advice and multi-stock chat analysis",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "validFrom": "2025-01-01"
+        },
+        "features": [
+            "Real-time AI stock analysis",
+            "Multi-stock chat capabilities",
+            "Predictive market analytics",
+            "Automated trading suggestions",
+            "Market trend analysis"
+        ],
+        "provider": {
+            "@type": "Organization",
+            "name": "StockAssist",
+            "url": "https://yourdomain.com",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://yourdomain.com/images/StockAssist-min.jpg",
+                "width": "180",
+                "height": "60"
+            }
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "ratingCount": "1250",
+            "bestRating": "5",
+            "worstRating": "1"
+        },
+        "screenshot": "https://yourdomain.com/images/screenshot.png",
+        "softwareVersion": "2.0",
+        "datePublished": "2025-01-01",
+        "dateModified": "{{ now.strftime('%Y-%m-%d') if now is defined else '2025-01-01' }}"
+    }
+    </script>
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is StockAssist?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "StockAssist is an AI-powered stock analysis tool that provides real-time trading insights and predictive analytics."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is StockAssist free?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes! StockAssist offers a free plan that provides AI-powered stock analysis and trading recommendations."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How accurate are StockAssist's predictions?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "StockAssist uses advanced AI algorithms and real-time market data to provide highly accurate predictions, though all trading involves some level of risk."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I analyze multiple stocks at once?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, StockAssist's multi-stock chat feature allows you to analyze and compare multiple stocks simultaneously for better investment decisions."
+              }
+            }
+          ]
+        }
+    </script>        
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "StockAssist",
+        "url": "https://yourdomain.com",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://yourdomain.com/images/StockAssist-min.jpg",
+            "width": "180",
+            "height": "60"
+        },
+        "sameAs": [
+            "https://twitter.com/stockassist",
+            "https://www.linkedin.com/company/stockassist",
+            "https://www.facebook.com/stockassist",
+            "https://www.instagram.com/stockassist",
+        ],
+        "contactPoint": [
+            {
+                "@type": "ContactPoint",
+                "telephone": "N/a",
+                "contactType": "customer service",
+                "availableLanguage": ["English"]
+            }
+        ],
+        "foundingDate": "2025-01-01",
+        "founders": [
+            {
+                "@type": "Person",
+                "name": "StockAssist Team"
+            }
+        ],
+        "description": "AI-powered stock analysis platform providing real-time trading advice and multi-stock chat analysis"
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://yourdomain.com/"
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "{% block breadcrumb_name %}Home{% endblock %}",
+            "item": "https://yourdomain.com{{ request.path }}"
+        }]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "StockAssist",
+        "operatingSystem": "Web",
+        "applicationCategory": "FinanceApplication",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "ratingCount": "1250"
+        }
+    }
+    </script>
+
+    {% block head %}{% endblock %}
+</head>
+<body class="min-h-screen bg-gray-900 text-white antialiased flex flex-col">
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-gray-800/95 backdrop-blur-sm border-b border-white/5">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 ">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="{{ url_for('index') }}" class="text-xl font-bold">
+                        Stock<span class="text-accent">Assist</span>
+                    </a>
+                    <div class="flex sm:ml-10 sm:space-x-8 hidden sm:hidden md:flex">
+                        <div class="flex space-x-8">
+                            <a href="{{ url_for('index') }}" class="{% if request.path == url_for('index') %}text-accent border-accent{% else %}text-white hover:text-accent border-transparent hover:border-accent{% endif %} inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors">
+                                Home
+                            </a>
+                            <a href="{{ url_for('stocks') }}"
+                               class="{% if request.endpoint == 'stocks' %}text-white border-b-2 border-accent{% else %}text-white/60 hover:text-white{% endif %} inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors">
+                                Stocks
+                            </a>
+                            <a href="{{ url_for('news') }}"
+                               class="{% if request.endpoint == 'news' %}text-white border-b-2 border-accent{% else %}text-white/60 hover:text-white{% endif %} inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors">
+                                News
+                            </a>
+                            <a href="{{ url_for('chat') }}"
+                               class="{% if request.endpoint == 'chat' %}text-white border-b-2 border-accent{% else %}text-white/60 hover:text-white{% endif %} inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors">
+                                Chat
+                            </a>
+                            <a href="{{ url_for('team') }}"
+                               class="{% if request.endpoint == 'team' %}text-white border-b-2 border-accent{% else %}text-white/60 hover:text-white{% endif %} inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors">
+                                Team
+                            </a>
+                            <a href="{{ url_for('pricing') }}"
+                               class="{% if request.endpoint == 'pricing' %}text-white border-b-2 border-accent{% else %}text-white/60 hover:text-white{% endif %} inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors">
+                                Pricing
+                            </a>
+                            <a href="https://discord.gg/YOUR-DISCORD-SERVER-INVITE-LINK" target="_blank" class="text-white hover:text-accent inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors">
+                                Discord
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex sm:items-center sm:space-x-6 hidden sm:hidden md:flex">
+                    {% if current_user.is_authenticated %}
+                    <div class="relative">
+                        <button type="button"
+                                onclick="toggleUserMenu()"
+                                class="flex items-center text-sm font-medium text-white/80 hover:text-white transition-colors">
+                            <span>{{ current_user.name }}</span>
+                            <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <div id="userMenu"
+                             class="hidden absolute right-0 mt-2 w-48 rounded-lg bg-gray-800/95 backdrop-blur-sm border border-white/5 shadow-xl transform transition-all duration-200 scale-95 opacity-0">
+                             <a href="{{ url_for('redeem_key') }}"
+                                class="block px-4 py-2 text-sm bg-primary hover:bg-gray-700 text-white hover:text-white transition-colors rounded-t-lg">
+                                Redeem Key
+                            </a>
+                            {% if current_user.subscription.name == "Admin" %}
+                            <a href="{{ url_for('admin_keys') }}"
+                                class="block px-4 py-2 text-sm bg-primary hover:bg-gray-700 text-white hover:text-white transition-colors">
+                                Manage Keys
+                            </a>
+                            {% endif %}
+                            <a href="{{ url_for('payments.transactions') }}"
+                               class="block px-4 py-2 text-sm bg-primary hover:bg-gray-700 text-white hover:text-white transition-colors">
+                                Transaction History
+                            </a>
+                            <a href="{{ url_for('auth.referrals') }}"
+                               class="block px-4 py-2 text-sm bg-primary hover:bg-gray-700 text-white hover:text-white transition-colors">
+                                <span class="flex items-center">
+                                    <span>Referrals</span>
+                                    {% if current_user.can_claim_reward(1) or current_user.can_claim_reward(2) or current_user.can_claim_reward(3) or current_user.can_claim_reward(4) or current_user.can_claim_reward(5) %}
+                                    <span class="ml-2 w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+                                    {% endif %}
+                                </span>
+                            </a>
+                            <a href="{{ url_for('auth.sessions') }}"
+                               class="block px-4 py-2 text-sm bg-primary hover:bg-gray-700 text-white hover:text-white transition-colors">
+                                Manage Sessions
+                            </a>
+                            <a href="{{ url_for('auth.security') }}"
+                               class="block px-4 py-2 text-sm bg-primary hover:bg-gray-700 text-white hover:text-white transition-colors">
+                                Security Settings
+                            </a>
+                             <a href="{{ url_for('auth.logout') }}"
+                                class="block px-4 py-2 text-sm bg-primary hover:bg-gray-700 text-white hover:text-white transition-colors rounded-b-lg">
+                                Sign out
+                            </a>
+                        </div>
+                    </div>
+                    {% else %}
+                    <a href="{{ url_for('auth.login') }}"
+                       class="text-sm font-medium text-white/60 hover:text-white transition-colors">
+                        Sign in
+                    </a>
+                    <a href="{{ url_for('auth.register') }}"
+                       class="inline-flex items-center px-4 py-2 text-sm font-medium text-black bg-accent hover:bg-accent/90 rounded-lg transition-colors">
+                        Register
+                    </a>
+                    {% endif %}
+                </div>
+                <div class="flex items-center md:hidden">
+                    <button type="button"
+                            onclick="toggleMobileMenu()"
+                            class="text-white/60 hover:text-white">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path id="menuIcon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                            <path id="closeIcon" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobileMenu" class="hidden md:hidden border-t border-white/5">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="{{ url_for('index') }}"
+                   class="{% if request.endpoint == 'index' %}bg-accent/10 text-white border-l-2 border-accent{% else %}text-white/60 hover:bg-white/5 hover:text-white{% endif %} block pl-3 pr-4 py-2 text-base font-medium transition-colors">
+                    Home
+                </a>
+                <a href="{{ url_for('stocks') }}"
+                   class="{% if request.endpoint == 'stocks' %}bg-accent/10 text-white border-l-2 border-accent{% else %}text-white/60 hover:bg-white/5 hover:text-white{% endif %} block pl-3 pr-4 py-2 text-base font-medium transition-colors">
+                    Stocks
+                </a>
+                <a href="{{ url_for('news') }}"
+                   class="{% if request.endpoint == 'news' %}bg-accent/10 text-white border-l-2 border-accent{% else %}text-white/60 hover:bg-white/5 hover:text-white{% endif %} block pl-3 pr-4 py-2 text-base font-medium transition-colors">
+                    News
+                </a>
+                <a href="{{ url_for('chat') }}"
+                   class="{% if request.endpoint == 'chat' %}bg-accent/10 text-white border-l-2 border-accent{% else %}text-white/60 hover:bg-white/5 hover:text-white{% endif %} block pl-3 pr-4 py-2 text-base font-medium transition-colors">
+                    Chat
+                </a>
+                <a href="{{ url_for('team') }}"
+                   class="{% if request.endpoint == 'team' %}bg-accent/10 text-white border-l-2 border-accent{% else %}text-white/60 hover:bg-white/5 hover:text-white{% endif %} block pl-3 pr-4 py-2 text-base font-medium transition-colors">
+                    Team
+                </a>
+                <a href="{{ url_for('pricing') }}"
+                   class="{% if request.endpoint == 'pricing' %}bg-accent/10 text-white border-l-2 border-accent{% else %}text-white/60 hover:bg-white/5 hover:text-white{% endif %} block pl-3 pr-4 py-2 text-base font-medium transition-colors">
+                    Pricing
+                </a>
+                <a href="https://discord.gg/YOUR-DISCORD-SERVER-INVITE-LINK" target="_blank" 
+                   class="text-white/60 hover:bg-white/5 hover:text-white block pl-3 pr-4 py-2 text-base font-medium transition-colors">
+                    Discord
+                </a>
+                <button type="button" id="mobileMenuChatToggle"
+                   class="text-white/60 hover:bg-white/5 hover:text-white block w-full text-left pl-3 pr-4 py-2 text-base font-medium transition-colors">
+                    <span class="flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
+                            </path>
+                        </svg>
+                        Chat Support
+                    </span>
+                </button>
+            </div>
+            {% if current_user.is_authenticated %}
+            <div class="pt-4 pb-3 border-t border-white/5">
+                <div class="px-4">
+                    <div class="text-base font-medium text-white">{{ current_user.name }}</div>
+                </div>
+                <div class="mt-3 px-2 space-y-2">
+                    <a href="{{ url_for('redeem_key') }}"
+                       class="block px-3 py-2 text-base font-medium bg-black/5 hover:bg-black/10 text-white hover:text-white/80 transition-colors rounded-lg">
+                        Redeem Key
+                    </a>
+                    {% if current_user.subscription.name == "Admin" %}
+                    <a href="{{ url_for('admin_keys') }}"
+                       class="block px-3 py-2 text-base font-medium bg-black/5 hover:bg-black/10 text-white hover:text-white/80 transition-colors rounded-lg">
+                        Manage Keys
+                    </a>
+                    {% endif %}
+                    <a href="{{ url_for('payments.transactions') }}"
+                       class="block px-3 py-2 text-base font-medium bg-black/5 hover:bg-black/10 text-white hover:text-white/80 transition-colors rounded-lg">
+                        Transaction History
+                    </a>
+                    <a href="{{ url_for('auth.referrals') }}"
+                       class="block px-3 py-2 text-base font-medium bg-black/5 hover:bg-black/10 text-white hover:text-white/80 transition-colors rounded-lg">
+                        <span class="flex items-center">
+                            <span>Referrals</span>
+                            {% if current_user.can_claim_reward(1) or current_user.can_claim_reward(2) or current_user.can_claim_reward(3) or current_user.can_claim_reward(4) or current_user.can_claim_reward(5) %}
+                            <span class="ml-2 w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+                            {% endif %}
+                        </span>
+                    </a>
+                    <a href="{{ url_for('auth.sessions') }}"
+                       class="block px-3 py-2 text-base font-medium bg-black/5 hover:bg-black/10 text-white hover:text-white/80 transition-colors rounded-lg">
+                        Manage Sessions
+                    </a>
+                    <a href="{{ url_for('auth.security') }}"
+                       class="block px-3 py-2 text-base font-medium bg-black/5 hover:bg-black/10 text-white hover:text-white/80 transition-colors rounded-lg">
+                        Security Settings
+                    </a>
+                    <a href="{{ url_for('auth.logout') }}"
+                       class="block px-3 py-2 text-base font-medium bg-black/5 hover:bg-black/10 text-white hover:text-white/80 transition-colors rounded-lg">
+                        Sign out
+                    </a>
+                </div>
+            </div>
+            {% else %}
+            <div class="pt-4 pb-3 border-t border-white/5">
+                <div class="px-2 space-y-1">
+                    <a href="{{ url_for('auth.login') }}"
+                       class="block px-3 py-2 text-base font-medium text-white/60 hover:text-white hover:bg-white/5 transition-colors">
+                        Sign in
+                    </a>
+                    <a href="{{ url_for('auth.register') }}"
+                       class="block px-3 py-2 text-base font-medium text-black bg-accent hover:bg-accent/90 rounded-lg transition-colors">
+                        Register
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div id="flash-messages" class="fixed top-20 sm:right-4 z-[9999] space-y-4 w-full sm:w-auto px-4 sm:px-0">
+                {% for message in messages %}
+                    <div class="flash-message bg-primary-50/95 backdrop-blur-sm border border-white/5 rounded-lg px-4 py-3 shadow-lg animate-slideUp max-w-full mx-auto sm:mx-0 sm:max-w-md cursor-pointer">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-black font-medium block text-center sm:text-left flex-grow">{{ message }}</span>
+                            <span class="text-gray-500 ml-3">&times;</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const flashMessages = document.querySelectorAll('.flash-message');
+                    
+                    const dismissMessage = (message) => {
+                        message.style.opacity = '0';
+                        message.style.transform = 'translateY(-20px)';
+                        message.style.transition = 'opacity 0.5s, transform 0.5s';
+                        setTimeout(() => {
+                            message.remove();
+                        }, 500);
+                    };
+                    
+                    flashMessages.forEach(message => {
+                        message.addEventListener('click', function() {
+                            dismissMessage(this);
+                        });
+                        
+                        setTimeout(() => {
+                            dismissMessage(message);
+                        }, 5000);
+                    });
+                });
+            </script>
+        {% endif %}
+    {% endwith %}
+
+    <main class="flex-grow pt-16">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-gray-800 border-t border-white/5 py-8 mt-auto">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col items-center space-y-4">
+                <div class="flex justify-center items-center space-x-6">
+                    <a href="https://www.youtube.com/@YOUR-YOUTUBE-HANDLE" target="_blank" class="text-white/70 hover:text-accent transition-colors duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.tiktok.com/@YOUR-TIKTOK-HANDLE" target="_blank" class="text-white/70 hover:text-accent transition-colors duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.instagram.com/YOUR-INSTAGRAM-HANDLE/" target="_blank" class="text-white/70 hover:text-accent transition-colors duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </a>
+                </div>
+                <p class="text-sm text-white/70">&copy; 2025 StockAssist. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/pwa.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/pwa-announcement.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/analytics.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/ecommerce.js') }}"></script>
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {},
+            Tawk_LoadStart = new Date();
+        (function() {
+            var s1 = document.createElement("script"),
+                s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/67f972111284d1190717ae55/1ioj6b5jn';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+
+            Tawk_API = Tawk_API || {};
+
+            /**
+             * Handles chat minimization event.
+             */
+            Tawk_API.onChatMinimized = function() {
+                const toggleBtn = document.getElementById('chatToggleBtn');
+                if (toggleBtn && toggleBtn.dataset.state === 'visible' && window.innerWidth < 768) {
+                    toggleBtn.click();
+                }
+            };
+
+            document.addEventListener('DOMContentLoaded', function() {
+                /**
+                 * Initializes mobile menu chat toggle functionality.
+                 */
+                const mobileMenuChatToggle = document.getElementById('mobileMenuChatToggle');
+                if (mobileMenuChatToggle) {
+                    mobileMenuChatToggle.addEventListener('click', function() {
+                        if (typeof Tawk_API !== 'undefined') {
+                            toggleMobileMenu();
+                            setTimeout(function() {
+                                Tawk_API.toggle();
+                            }, 300);
+                        }
+                    });
+                }
+            });
+
+            Tawk_API.customStyle = {
+                visibility: {
+                    mobile: {
+                        position: 'bl',
+                        xOffset: 10,
+                        yOffset: 90,
+                    }
+                }
+            };
+        })();
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

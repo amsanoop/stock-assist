@@ -1,0 +1,317 @@
+{% extends "base.html" %}
+
+{% block title %}Transaction History{% endblock %}
+
+{% block content %}
+<div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-extrabold text-white sm:text-5xl sm:tracking-tight">
+                <span class="block">Transaction History</span>
+            </h1>
+            <p class="mt-5 max-w-xl mx-auto text-xl text-white/70">
+                View and track all your subscription payments
+            </p>
+        </div>
+
+        <div class="relative flex flex-col rounded-2xl border border-white/10 bg-dark-200/40 shadow-xl backdrop-blur-xl overflow-hidden">
+            <div class="p-6 border-b border-white/10 bg-gradient-to-r from-highlight/20 to-accent/5">
+                <!-- Filter options -->
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white/50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </div>
+                        <input type="text" id="search" placeholder="Search by ID or subscription" class="block w-full pl-10 pr-3 py-2 border border-white/10 rounded-md bg-dark-300/50 placeholder-white/30 text-white focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent">
+                    </div>
+                    
+                    <select id="status-filter" class="rounded-md border border-white/10 bg-dark-300/50 text-white focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent px-4 py-2">
+                        <option value="all">All Statuses</option>
+                        <option value="paid">Paid</option>
+                        <option value="pending">Pending</option>
+                        <option value="failed">Failed</option>
+                        <option value="expired">Expired</option>
+                        <option value="refunded">Refunded</option>
+                    </select>
+                    
+                    <select id="date-filter" class="rounded-md border border-white/10 bg-dark-300/50 text-white focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent px-4 py-2">
+                        <option value="all">All Time</option>
+                        <option value="7days">Last 7 Days</option>
+                        <option value="30days">Last 30 Days</option>
+                        <option value="90days">Last 90 Days</option>
+                        <option value="year">This Year</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="p-6">
+                {% if transactions %}
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-white/10">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white/70 uppercase tracking-wider">
+                                    Date
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white/70 uppercase tracking-wider">
+                                    Transaction ID
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white/70 uppercase tracking-wider">
+                                    Subscription
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white/70 uppercase tracking-wider">
+                                    Amount
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white/70 uppercase tracking-wider">
+                                    Status
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-white/70 uppercase tracking-wider">
+                                    Actions
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-white/10">
+                            {% for transaction in transactions %}
+                            <tr class="transaction-row" 
+                                data-id="{% if transaction|transaction_type == 'oxapay' %}{{ transaction.track_id }}{% else %}{{ transaction.transaction_id }}{% endif %}" 
+                                data-subscription="{{ transaction.subscription_name }}" 
+                                data-status="{{ transaction.status }}" 
+                                data-date="{{ transaction.created_at }}">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-white">
+                                    {{ transaction.created_at|format_datetime }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-white">
+                                    <span class="font-mono truncate block max-w-[150px]">{% if transaction|transaction_type == 'oxapay' %}{{ transaction.track_id }}{% else %}{{ transaction.transaction_id }}{% endif %}</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-white">
+                                    {{ transaction.subscription_name }}
+                                    {% if transaction|transaction_type == 'stripe' %}
+                                    <span class="ml-2 px-2 py-0.5 text-xs bg-highlight/20 text-highlight/90 rounded-full">Stripe</span>
+                                    {% else %}
+                                    <span class="ml-2 px-2 py-0.5 text-xs bg-accent/20 text-accent/90 rounded-full">Crypto</span>
+                                    {% endif %}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-white">
+                                    ${{ "%.2f"|format(transaction.amount) }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                        {% if transaction.status == 'completed' or transaction.status == 'confirmed' or transaction.status == 'paid' %}
+                                        bg-green-100/20 text-green-400
+                                        {% elif transaction.status == 'pending' or transaction.status == 'waiting' %}
+                                        bg-yellow-100/20 text-yellow-400
+                                        {% elif transaction.status == 'expired' %}
+                                        bg-gray-100/20 text-gray-400
+                                        {% elif transaction.status == 'refunded' %}
+                                        bg-blue-100/20 text-blue-400
+                                        {% else %}
+                                        bg-red-100/20 text-red-400
+                                        {% endif %}">
+                                        {{ transaction.status|capitalize }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <a href="{{ url_for('payments.transaction_details', transaction_id=transaction.id) }}" class="text-accent hover:text-accent/80">
+                                        Details
+                                    </a>
+                                    {% if transaction.status == 'pending' and transaction|transaction_type == 'oxapay' %}
+                                    <button onclick="cancelPayment('{{ transaction.track_id }}')" class="ml-4 text-red-400 hover:text-red-300">
+                                        Cancel
+                                    </button>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                {% if pagination.pages > 1 %}
+                <div class="mt-6 border-t border-white/10 bg-dark-300/30 px-4 py-3 sm:px-6">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1 flex justify-between sm:hidden">
+                            {% if pagination.has_prev %}
+                            <a href="{{ url_for('payments.transactions', page=pagination.prev_num) }}" class="relative inline-flex items-center px-4 py-2 border border-white/10 text-sm font-medium rounded-md text-white bg-dark-200 hover:bg-dark-100">
+                                Previous
+                            </a>
+                            {% else %}
+                            <span class="relative inline-flex items-center px-4 py-2 border border-white/10 text-sm font-medium rounded-md text-white/50 bg-dark-300 cursor-not-allowed">
+                                Previous
+                            </span>
+                            {% endif %}
+                            
+                            {% if pagination.has_next %}
+                            <a href="{{ url_for('payments.transactions', page=pagination.next_num) }}" class="ml-3 relative inline-flex items-center px-4 py-2 border border-white/10 text-sm font-medium rounded-md text-white bg-dark-200 hover:bg-dark-100">
+                                Next
+                            </a>
+                            {% else %}
+                            <span class="ml-3 relative inline-flex items-center px-4 py-2 border border-white/10 text-sm font-medium rounded-md text-white/50 bg-dark-300 cursor-not-allowed">
+                                Next
+                            </span>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                            <div>
+                                <p class="text-sm text-white/70">
+                                    Showing <span class="font-medium">{{ pagination.page * pagination.per_page - pagination.per_page + 1 }}</span> to <span class="font-medium">{{ min(pagination.page * pagination.per_page, pagination.total) }}</span> of <span class="font-medium">{{ pagination.total }}</span> results
+                                </p>
+                            </div>
+                            
+                            <div>
+                                <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                                    {% if pagination.has_prev %}
+                                    <a href="{{ url_for('payments.transactions', page=pagination.prev_num) }}" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-white/10 bg-dark-200 text-sm font-medium text-white hover:bg-dark-100">
+                                        <span class="sr-only">Previous</span>
+                                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                        </svg>
+                                    </a>
+                                    {% else %}
+                                    <span class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-white/10 bg-dark-300 text-sm font-medium text-white/50 cursor-not-allowed">
+                                        <span class="sr-only">Previous</span>
+                                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                        </svg>
+                                    </span>
+                                    {% endif %}
+                                    
+                                    {% for page_num in pagination.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+                                        {% if page_num %}
+                                            {% if page_num == pagination.page %}
+                                            <span class="relative inline-flex items-center px-4 py-2 border border-white/10 bg-accent text-sm font-medium text-black">
+                                                {{ page_num }}
+                                            </span>
+                                            {% else %}
+                                            <a href="{{ url_for('payments.transactions', page=page_num) }}" class="relative inline-flex items-center px-4 py-2 border border-white/10 bg-dark-200 text-sm font-medium text-white hover:bg-dark-100">
+                                                {{ page_num }}
+                                            </a>
+                                            {% endif %}
+                                        {% else %}
+                                        <span class="relative inline-flex items-center px-4 py-2 border border-white/10 bg-dark-300 text-sm font-medium text-white/30">
+                                            ...
+                                        </span>
+                                        {% endif %}
+                                    {% endfor %}
+                                    
+                                    {% if pagination.has_next %}
+                                    <a href="{{ url_for('payments.transactions', page=pagination.next_num) }}" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-white/10 bg-dark-200 text-sm font-medium text-white hover:bg-dark-100">
+                                        <span class="sr-only">Next</span>
+                                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                                        </svg>
+                                    </a>
+                                    {% else %}
+                                    <span class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-white/10 bg-dark-300 text-sm font-medium text-white/50 cursor-not-allowed">
+                                        <span class="sr-only">Next</span>
+                                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                                        </svg>
+                                    </span>
+                                    {% endif %}
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                
+                {% else %}
+                <div class="text-center py-12">
+                    <svg class="mx-auto h-12 w-12 text-white/30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <h3 class="mt-2 text-xl font-medium text-white">No transactions found</h3>
+                    <p class="mt-1 text-white/70">You haven't made any payments yet.</p>
+                    <div class="mt-6">
+                        <a href="{{ url_for('pricing') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-black bg-accent hover:bg-accent/90">
+                            View Subscription Plans
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('search');
+        const statusFilter = document.getElementById('status-filter');
+        const dateFilter = document.getElementById('date-filter');
+        const transactionRows = document.querySelectorAll('.transaction-row');
+        
+        function filterTransactions() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const statusValue = statusFilter.value;
+            const dateValue = dateFilter.value;
+            
+            transactionRows.forEach(row => {
+                const id = row.getAttribute('data-id').toLowerCase();
+                const subscription = row.getAttribute('data-subscription').toLowerCase();
+                const status = row.getAttribute('data-status');
+                const dateStr = row.getAttribute('data-date');
+                const date = new Date(dateStr);
+                const now = new Date();
+                
+                const matchesSearch = id.includes(searchTerm) || subscription.includes(searchTerm);
+                
+                const matchesStatus = statusValue === 'all' || status === statusValue;
+                
+                let matchesDate = true;
+                if (dateValue === '7days') {
+                    const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+                    matchesDate = date >= sevenDaysAgo;
+                } else if (dateValue === '30days') {
+                    const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+                    matchesDate = date >= thirtyDaysAgo;
+                } else if (dateValue === '90days') {
+                    const ninetyDaysAgo = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
+                    matchesDate = date >= ninetyDaysAgo;
+                } else if (dateValue === 'year') {
+                    matchesDate = date.getFullYear() === now.getFullYear();
+                }
+                
+                if (matchesSearch && matchesStatus && matchesDate) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+        
+        searchInput.addEventListener('input', filterTransactions);
+        statusFilter.addEventListener('change', filterTransactions);
+        dateFilter.addEventListener('change', filterTransactions);
+    });
+
+    function cancelPayment(trackId) {
+        if (!confirm('Are you sure you want to cancel this payment?')) {
+            return;
+        }
+        
+        fetch(`/payments/cancel/${trackId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token() }}'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.reload();
+            } else {
+                alert('Error cancelling payment: ' + data.message);
+            }
+        })
+        .catch(error => {
+            alert('An error occurred while cancelling the payment.');
+        });
+    }
+</script>
+{% endblock %} 

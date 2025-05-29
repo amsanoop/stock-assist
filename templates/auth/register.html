@@ -1,0 +1,299 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="min-h-screen relative overflow-hidden bg-background">
+  <div class="hero-glow hero-glow-1"></div>
+  <div class="hero-glow hero-glow-2"></div>
+  <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,#ffffff06,#00000000)]"></div>
+
+  <div class="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative">
+    <div
+      class="max-w-md w-full bg-gray-800/80 rounded-2xl shadow-xl overflow-hidden border border-white/5 backdrop-blur-sm animate-fadeIn"
+    >
+      <div class="px-8 py-6 border-b border-white/10">
+        <h2 class="text-3xl font-bold text-white flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-3 text-accent" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+          </svg>
+          Create your account
+        </h2>
+        <p class="mt-2 text-center text-sm text-white/60">
+          Already have an account?
+          <a
+            href="{{ url_for('auth.login') }}"
+            class="font-medium text-accent hover:text-accent/80 transition-colors"
+          >
+            Sign in
+          </a>
+        </p>
+      </div>
+
+      <div class="px-8 py-6">
+        <form
+          class="space-y-6"
+          action="{{ url_for('auth.register') }}"
+          method="POST"
+          id="registerForm"
+        >
+          {{ form.csrf_token }}
+          <div class="space-y-4">
+            <div class="group">
+              <label
+                for="name"
+                class="block text-sm font-medium text-white/80 mb-2 transition-all group-hover:text-white"
+                >Full name</label
+              >
+              <input
+                id="name"
+                name="name"
+                type="text"
+                required
+                class="dark-input w-full px-4 py-3 text-lg"
+                placeholder="Enter your full name"
+              />
+              <div
+                class="mt-2 h-0.5 w-0 bg-accent group-hover:w-full transition-all duration-300"
+              ></div>
+            </div>
+            <div class="group">
+              <label
+                for="email"
+                class="block text-sm font-medium text-white/80 mb-2 transition-all group-hover:text-white"
+                >Email address</label
+              >
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                class="dark-input w-full px-4 py-3 text-lg"
+                placeholder="Enter your email"
+              />
+              <div
+                class="mt-2 h-0.5 w-0 bg-accent group-hover:w-full transition-all duration-300"
+              ></div>
+            </div>
+            <div class="group">
+              <label
+                for="password"
+                class="block text-sm font-medium text-white/80 mb-2 transition-all group-hover:text-white"
+                >Password</label
+              >
+              <input
+                id="password"
+                name="password"
+                type="password"
+                required
+                class="dark-input w-full px-4 py-3 text-lg"
+                placeholder="Create a password"
+              />
+              <div
+                class="mt-2 h-0.5 w-0 bg-accent group-hover:w-full transition-all duration-300"
+              ></div>
+            </div>
+            <div class="group">
+              <label
+                for="confirm_password"
+                class="block text-sm font-medium text-white/80 mb-2 transition-all group-hover:text-white"
+                >Confirm Password</label
+              >
+              <input
+                id="confirm_password"
+                name="confirm"
+                type="password"
+                required
+                class="dark-input w-full px-4 py-3 text-lg"
+                placeholder="Confirm your password"
+              />
+              <div
+                class="mt-2 h-0.5 w-0 bg-accent group-hover:w-full transition-all duration-300"
+              ></div>
+            </div>
+            <div class="group">
+              <label
+                for="referral_code"
+                class="block text-sm font-medium text-white/80 mb-2 transition-all group-hover:text-white"
+                >Referral Code <span class="text-white/40">(optional)</span></label
+              >
+              <input
+                id="referral_code"
+                name="referral_code"
+                type="text"
+                class="dark-input w-full px-4 py-3 text-lg"
+                placeholder="Enter referral code if you have one"
+                value="{{ request.args.get('ref', '') }}"
+              />
+              <div
+                class="mt-2 h-0.5 w-0 bg-accent group-hover:w-full transition-all duration-300"
+              ></div>
+            </div>
+            
+            <div class="flex items-start mt-6">
+              <div class="flex items-center h-5">
+                <input
+                  id="agree_tos"
+                  name="agree_tos"
+                  type="checkbox"
+                  required
+                  class="h-4 w-4 text-accent bg-gray-700 border-gray-600 rounded focus:ring-accent focus:ring-offset-gray-800"
+                />
+              </div>
+              <div class="ml-3 text-sm">
+                <label for="agree_tos" class="text-white/80">
+                  I agree to the 
+                  <button 
+                    type="button" 
+                    class="text-accent hover:text-accent/80 underline font-medium"
+                    onclick="openTosModal()"
+                  >
+                    Terms of Service
+                  </button>
+                  and acknowledge that StockAssist is a research tool only and does not provide financial advice
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="hidden">
+            <input type="text" name="website" autocomplete="off" tabindex="-1" />
+          </div>
+
+          <div class="flex justify-center mt-4">
+            {{ turnstile }}
+          </div>
+
+          <div class="pt-2">
+            <button
+              type="submit"
+              id="registerButton"
+              class="btn-accent w-full flex justify-center py-3 px-4 text-base font-medium opacity-50 cursor-not-allowed"
+              disabled
+            >
+              Create account
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <!-- TOS Modal -->
+  <div id="tosModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+      <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+        <div class="absolute inset-0 bg-gray-900 opacity-75"></div>
+      </div>
+      
+      <div class="inline-block align-bottom bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl w-full">
+        <div class="bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+          <div class="sm:flex sm:items-start">
+            <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
+              <h3 class="text-2xl leading-6 font-bold text-white mb-4" id="modal-title">
+                Terms of Service
+              </h3>
+              <div class="mt-2">
+                <div id="tosContent" class="bg-gray-700/50 rounded-lg p-4 max-h-96 overflow-y-auto text-white/90 text-sm">
+                  <iframe src="{{ url_for('terms') }}" class="w-full h-96 border-0" id="tosFrame"></iframe>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-gray-800 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-white/10">
+          <button 
+            type="button" 
+            id="tosAgreeBtn"
+            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-accent text-base font-medium text-black hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent sm:ml-3 sm:w-auto sm:text-sm opacity-50 cursor-not-allowed"
+            disabled
+          >
+            I Agree
+          </button>
+          <button 
+            type="button" 
+            class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-600 shadow-sm px-4 py-2 bg-gray-700 text-base font-medium text-white hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+            onclick="closeTosModal()"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} 
+
+{% block scripts %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    /**
+     * Adds focus effects to input groups.
+     */
+    const inputGroups = document.querySelectorAll(".group");
+    inputGroups.forEach((group) => {
+      const input = group.querySelector("input");
+      if (input) {
+        input.addEventListener("focus", function () {
+          group.classList.add("animate-glow");
+        });
+
+        input.addEventListener("blur", function () {
+          group.classList.remove("animate-glow");
+        });
+      }
+    });
+
+    /**
+     * Handles TOS agreement checkbox changes.
+     */
+    const agreeCheckbox = document.getElementById("agree_tos");
+    const registerButton = document.getElementById("registerButton");
+
+    agreeCheckbox.addEventListener("change", function () {
+      if (this.checked) {
+        registerButton.classList.remove("opacity-50", "cursor-not-allowed");
+        registerButton.disabled = false;
+      } else {
+        registerButton.classList.add("opacity-50", "cursor-not-allowed");
+        registerButton.disabled = true;
+      }
+    });
+
+    /**
+     * Listens for messages from the TOS iframe.
+     */
+    window.addEventListener("message", function (event) {
+      if (event.data && event.data.type === "tos-read-complete") {
+        const tosAgreeBtn = document.getElementById("tosAgreeBtn");
+        tosAgreeBtn.disabled = false;
+        tosAgreeBtn.classList.remove("opacity-50", "cursor-not-allowed");
+      }
+    });
+  });
+
+  /**
+   * Opens the TOS modal.
+   */
+  function openTosModal() {
+    document.getElementById("tosModal").classList.remove("hidden");
+    document.body.classList.add("overflow-hidden");
+  }
+
+  /**
+   * Closes the TOS modal.
+   */
+  function closeTosModal() {
+    document.getElementById("tosModal").classList.add("hidden");
+    document.body.classList.remove("overflow-hidden");
+  }
+
+  /**
+   * Handles TOS agreement when the agree button is clicked.
+   */
+  document.getElementById("tosAgreeBtn").addEventListener("click", function () {
+    document.getElementById("agree_tos").checked = true;
+    document.getElementById("registerButton").classList.remove("opacity-50", "cursor-not-allowed");
+    document.getElementById("registerButton").disabled = false;
+    closeTosModal();
+  });
+</script>
+{% endblock %}

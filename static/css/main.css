@@ -1,0 +1,152 @@
+/* Mobile-first responsive styles */
+
+/* Base mobile adjustments */
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+  }
+  
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Feature cards styling */
+.feature-card {
+  height: 100%;
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Desktop card layout */
+@media (min-width: 769px) {
+  .feature-card {
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .feature-card p {
+    flex-grow: 1;
+  }
+}
+
+/* Feature cards grid for mobile */
+@media (max-width: 768px) {
+  .card-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .feature-card {
+    margin-bottom: 0;
+  }
+}
+
+/* Adjust glassmorphism effect for better mobile performance */
+@media (max-width: 768px) {
+  .glassmorphism {
+    backdrop-filter: blur(8px);
+  }
+  
+  .hero-glow {
+    opacity: 0.5;
+  }
+}
+
+/* Improve scrolling on mobile */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Fix stock suggestion dropdown for mobile */
+#stockSuggestions {
+  max-height: 60vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+@media (max-width: 768px) {
+  #stockSuggestions {
+    max-height: 40vh;
+  }
+}
+
+/* Better spacing for mobile view */
+@media (max-width: 768px) {
+  .py-16 {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+  
+  .space-y-8 > * + * {
+    margin-top: 1.5rem;
+  }
+  
+  .mt-20 {
+    margin-top: 3rem;
+  }
+  
+  .mt-32 {
+    margin-top: 4rem;
+  }
+}
+
+/* Feature underline animation */
+.feature-underline {
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(to right, var(--color-accent), var(--color-accent-light));
+  transition: width 0.3s ease;
+}
+
+.feature-card:hover .feature-underline {
+  width: 100%;
+}
+
+/* Animation performance improvements for mobile */
+@media (max-width: 768px) {
+  .animate-pulse, 
+  .animate-pulse-subtle,
+  .animate-float {
+    animation-duration: 3s;
+  }
+  
+  .animate-shimmer {
+    animation-duration: 2s;
+  }
+}
+
+/* Optimize tilt effects for mobile */
+@media (max-width: 768px) {
+  .tilt-card {
+    transform: none !important;
+    transform-style: flat !important;
+  }
+  
+  .js-tilt-glare {
+    display: none !important;
+  }
+} 

@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block title %}Two-Factor Backup Codes | StockAssist{% endblock %}
+{% block meta_description %}Save your backup codes for two-factor authentication to ensure you can access your account if you lose your device.{% endblock %}
+
+{% block content %}
+<div class="min-h-screen relative overflow-hidden bg-background flex items-center justify-center">
+    <div class="hero-glow hero-glow-1"></div>
+    <div class="hero-glow hero-glow-2"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,#ffffff06,#00000000)]"></div>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative py-16">
+        <div class="glassmorphism rounded-xl overflow-hidden border border-white/10 transition-all duration-300 hover:border-accent/20 hover:shadow-lg hover:shadow-accent/5">
+            <div class="px-6 py-5 border-b border-white/5">
+                <div class="flex items-center justify-between">
+                    <h1 class="text-2xl font-bold text-white">Two-Factor Authentication Enabled</h1>
+                    <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-500/20 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
+                </div>
+                <p class="mt-1 text-sm text-white/60">
+                    Two-factor authentication has been successfully enabled for your account.
+                </p>
+            </div>
+            
+            <div class="px-6 py-4 border-b border-white/5 bg-dark-200/30 backdrop-blur-md">
+                <h2 class="text-lg font-semibold text-white">Backup Codes</h2>
+                <p class="mt-1 text-sm text-white/60">
+                    Save these backup codes in a secure place. You can use them to log in if you lose access to your authenticator app.
+                </p>
+            </div>
+            
+            <div class="p-6 border-b border-white/5">
+                <div class="bg-red-500/10 border border-red-500/20 rounded-lg p-4 mb-6">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm text-red-500 font-medium">
+                                Important: These codes will only be shown once!
+                            </p>
+                            <p class="text-xs text-red-400 mt-1">
+                                Each code can only be used once. Store them securely - if you lose your device and these codes, you may lose access to your account.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    {% for code in backup_codes %}
+                    <div class="bg-dark-200/50 border border-white/10 rounded-lg p-3 font-mono text-center">
+                        <div class="text-white tracking-wider select-all">{{ code }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <div class="mt-6 flex flex-col sm:flex-row sm:justify-between gap-4">
+                    <button id="copyAllBtn" class="px-4 py-2 text-sm font-medium text-white border border-white/20 hover:border-accent/50 hover:bg-accent/10 rounded-lg transition-colors flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                        </svg>
+                        Copy All Codes
+                    </button>
+                    
+                    <button id="downloadBtn" class="px-4 py-2 text-sm font-medium text-white border border-white/20 hover:border-accent/50 hover:bg-accent/10 rounded-lg transition-colors flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                        Download Codes
+                    </button>
+                </div>
+            </div>
+            
+            <div class="px-6 py-4 bg-dark-200/30 backdrop-blur-md flex justify-between items-center">
+                <div class="text-sm text-white/60">
+                    <span id="copySuccess" class="hidden text-green-500 font-medium">Codes copied to clipboard!</span>
+                </div>
+                <a href="{{ url_for('auth.security') }}" class="px-4 py-2 text-sm font-medium text-black bg-accent hover:bg-accent-light rounded-lg transition-colors">
+                    Continue to Security Settings
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const copyAllBtn = document.getElementById('copyAllBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const copySuccess = document.getElementById('copySuccess');
+    
+    if (copyAllBtn) {
+        copyAllBtn.addEventListener('click', function() {
+            const codes = [{% for code in backup_codes %}'{{ code }}'{% if not loop.last %}, {% endif %}{% endfor %}];
+            const textToCopy = codes.join('\n');
+            
+            navigator.clipboard.writeText(textToCopy).then(function() {
+                copySuccess.classList.remove('hidden');
+                setTimeout(() => {
+                    copySuccess.classList.add('hidden');
+                }, 3000);
+            });
+        });
+    }
+    
+    if (downloadBtn) {
+        downloadBtn.addEventListener('click', function() {
+            const codes = [{% for code in backup_codes %}'{{ code }}'{% if not loop.last %}, {% endif %}{% endfor %}];
+            const textToDownload = 'StockAssist 2FA Backup Codes\n\n' + 
+                                  'Keep these codes in a safe place. Each code can only be used once.\n\n' + 
+                                  codes.join('\n');
+            
+            const blob = new Blob([textToDownload], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            
+            a.href = url;
+            a.download = 'stockassist-2fa-backup-codes.txt';
+            document.body.appendChild(a);
+            a.click();
+            
+            setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, 100);
+        });
+    }
+});
+</script>
+{% endblock %}
+
+{% block head %}
+<style>
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    .glassmorphism, .glassmorphism * {
+        visibility: visible;
+    }
+    .glassmorphism {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        background: white !important;
+        color: black !important;
+    }
+    .hero-glow, .bg-dark-200\/30, .bg-dark-200\/50 {
+        background: white !important;
+    }
+    .text-white, .text-white\/60, .text-white\/80 {
+        color: black !important;
+    }
+    button, a.px-4 {
+        display: none !important;
+    }
+}
+</style>
+{% endblock %} 

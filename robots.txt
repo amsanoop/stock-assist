@@ -1,0 +1,52 @@
+User-agent: *
+Allow: /
+Allow: /stocks
+Allow: /chat
+Allow: /pricing
+Allow: /news
+Allow: /team
+Allow: /terms
+Allow: /security-policy
+Allow: /offline
+Allow: /auth/login
+Allow: /auth/register
+Allow: /auth/referrals
+Allow: /payments/plans
+Allow: /payments/success
+Allow: /redeem
+
+# Prevent crawling of private pages
+Disallow: /auth/sessions
+Disallow: /auth/security
+Disallow: /auth/two_factor_*
+Disallow: /payments/transactions
+Disallow: /payments/transaction_details
+Disallow: /payments/checkout
+Disallow: /api/*
+Disallow: /admin/*
+Disallow: /user/*
+Disallow: /dashboard/*
+Disallow: /settings/*
+
+# Prevent crawling of search results and dynamic content
+Disallow: /*?q=*
+Disallow: /*?symbol=*
+Disallow: /*?page=*
+Disallow: /*?ref=*
+Disallow: /*?trackId=*
+
+# Allow crawling of static assets
+Allow: /static/
+Allow: /images/
+Allow: /css/
+Allow: /js/
+
+# Prevent caching of dynamic JS files
+Disallow: /js/chat.js
+Disallow: /js/stocks.js
+Disallow: /js/team.js
+
+# Crawl-delay directive for rate limiting
+Crawl-delay: 1
+
+Sitemap: https://yourdomain.com/sitemap.xml

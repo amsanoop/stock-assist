@@ -1,0 +1,109 @@
+.chat-toggle-btn {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #4f46e5;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.chat-toggle-btn:hover {
+  transform: scale(1.05);
+  background-color: #4338ca;
+}
+
+.chat-toggle-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+.chat-hidden {
+  display: none !important;
+}
+
+@media (min-width: 768px) {
+  .chat-toggle-btn {
+    display: none;
+  }
+}
+
+.widget-visible {
+  display: block !important;
+}
+
+.widget-hidden {
+  display: none !important;
+}
+
+@media (max-width: 767px) {
+  .chat-toggle-btn {
+    display: none !important;
+  }
+
+  #tawk-live-chat {
+    bottom: 20px !important;
+    left: 20px !important;
+    right: auto !important;
+  }
+
+  .tawk-min-container {
+    margin-bottom: 20px !important;
+    left: 20px !important;
+    right: auto !important;
+  }
+
+  .tawk-button {
+    margin-bottom: 20px !important;
+  }
+
+  .tawk-chat-panel {
+    max-height: calc(100% - 40px) !important;
+    bottom: 20px !important;
+  }
+}
+
+#tawk-iframe-container.chat-minimized {
+  width: 60px !important;
+  height: 60px !important;
+  left: 20px !important;
+  right: auto !important;
+  bottom: 80px !important;
+  opacity: 0.7;
+  transform: scale(0.8);
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.fade-out {
+  animation: fadeOut 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

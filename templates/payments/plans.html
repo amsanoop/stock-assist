@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% block title %}Subscription Plans{% endblock %}
+
+{% block content %}
+<div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-extrabold text-white sm:text-5xl sm:tracking-tight">
+                <span class="block">Upgrade Your Stock Analysis</span>
+            </h1>
+            <p class="mt-5 max-w-xl mx-auto text-xl text-white/70">
+                Choose the plan that best fits your investment strategy and take your analysis to the next level.
+            </p>
+        </div>
+
+        <div class="grid gap-8 lg:grid-cols-3 mt-16">
+            {% for plan in subscription_plans %}
+            <div class="relative flex flex-col rounded-2xl border {% if plan.name == 'Pro' %}border-highlight/50 bg-gradient-to-b from-dark-200/70 to-highlight/5{% else %}border-white/10 bg-dark-200/40{% endif %} shadow-xl backdrop-blur-xl overflow-hidden transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-2xl">
+                {% if plan.name == 'Pro' %}
+                <div class="absolute top-0 right-0 left-0 h-1 bg-gradient-to-r from-highlight to-accent"></div>
+                <div class="absolute -top-4 -right-4 bg-highlight text-black font-bold py-1 px-4 shadow-lg transform rotate-12">
+                    Popular
+                </div>
+                {% endif %}
+
+                <div class="p-6 flex-1">
+                    <h3 class="text-2xl font-bold text-white">{{ plan.name }}</h3>
+                    <div class="mt-4 flex items-baseline text-white">
+                        <span class="text-4xl font-extrabold tracking-tight">${{ plan.price }}</span>
+                        <span class="ml-1 text-xl font-medium">/month</span>
+                    </div>
+                    <p class="mt-5 text-white/80">{{ plan.description }}</p>
+
+                    <ul class="mt-6 space-y-4">
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <svg class="h-6 w-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                            </div>
+                            <p class="ml-3 text-base text-white/80">
+                                <span class="font-medium">{{ plan.message_limit }}</span> messages per day
+                            </p>
+                        </li>
+
+                        {% if plan.features.multi_stock_chat %}
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <svg class="h-6 w-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                            </div>
+                            <p class="ml-3 text-base text-white/80">Multi-stock analysis</p>
+                        </li>
+                        {% endif %}
+
+                        {% if plan.features.expanded_historical %}
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <svg class="h-6 w-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                            </div>
+                            <p class="ml-3 text-base text-white/80">Expanded historical data</p>
+                        </li>
+                        {% endif %}
+
+                        {% if plan.features.image_attachments %}
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <svg class="h-6 w-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                            </div>
+                            <p class="ml-3 text-base text-white/80">
+                                <span class="font-medium">{{ plan.image_limit }}</span> image attachments per day
+                            </p>
+                        </li>
+                        {% endif %}
+
+                        {% if plan.features.premium_analytics %}
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <svg class="h-6 w-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                            </div>
+                            <p class="ml-3 text-base text-white/80">Premium analytics tools</p>
+                        </li>
+                        {% endif %}
+
+                        {% if plan.features.advanced_chat %}
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <svg class="h-6 w-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                            </div>
+                            <p class="ml-3 text-base text-white/80">Advanced chat features</p>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+
+                <div class="p-6 bg-dark-100/40 border-t border-white/10">
+                    <a 
+                        href="{{ url_for('payments.checkout', plan_id=plan.id) }}" 
+                        class="w-full flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md 
+                        {% if plan.name == 'Pro' %}
+                        bg-gradient-to-r from-highlight to-accent hover:from-highlight/90 hover:to-accent/90 text-black
+                        {% else %}
+                        bg-accent hover:bg-accent/90 text-black
+                        {% endif %}
+                        shadow-sm"
+                    >
+                        {% if current_subscription and current_subscription.id == plan.id %}
+                        Your Current Plan
+                        {% else %}
+                        Subscribe Now
+                        {% endif %}
+                    </a>
+                    {% if plan.name == 'Free' %}
+                    <p class="mt-2 text-xs text-center text-white/50">No payment required</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="mt-16 bg-dark-300/30 rounded-xl border border-white/10 p-8 backdrop-blur-sm">
+            <div class="text-center">
+                <h2 class="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+            </div>
+
+            <div class="grid gap-8 lg:grid-cols-2">
+                <div>
+                    <h3 class="text-lg font-medium text-white">How does billing work?</h3>
+                    <p class="mt-2 text-white/70">Our subscriptions are billed monthly. You can cancel anytime and your access will continue until the end of your billing period.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-medium text-white">What payment methods do you accept?</h3>
+                    <p class="mt-2 text-white/70">We currently accept cryptocurrency payments through OxaPay, supporting major currencies like Bitcoin, Ethereum, and more.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-medium text-white">Can I upgrade or downgrade my plan?</h3>
+                    <p class="mt-2 text-white/70">Yes, you can change your subscription at any time. The new rate will be applied to your next billing cycle.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-medium text-white">Is there a refund policy?</h3>
+                    <p class="mt-2 text-white/70">Due to the nature of digital products, we don't offer refunds for subscription payments. Please contact support if you have any issues with your subscription.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

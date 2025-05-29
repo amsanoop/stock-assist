@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Sessions | StockAssist{% endblock %}
+{% block meta_description %}Manage your active sessions and enhance your account security by monitoring and controlling your login sessions.{% endblock %}
+
+{% block content %}
+<div class="min-h-screen relative overflow-hidden bg-background flex items-center justify-center">
+    <div class="hero-glow hero-glow-1"></div>
+    <div class="hero-glow hero-glow-2"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,#ffffff06,#00000000)]"></div>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative py-16">
+        <div class="glassmorphism rounded-xl overflow-hidden border border-white/10 transition-all duration-300 hover:border-accent/20 hover:shadow-lg hover:shadow-accent/5">
+            <div class="px-6 py-5 border-b border-white/5">
+                <h1 class="text-2xl font-bold text-white">Manage Sessions</h1>
+                <p class="mt-1 text-sm text-white/60">
+                    View and manage your active sessions across different devices. Terminate any session that you don't recognize to keep your account secure.
+                </p>
+            </div>
+            
+            <div class="px-6 py-4 border-b border-white/5 bg-dark-200/30 backdrop-blur-md">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-lg font-semibold text-white">Active Sessions ({{ sessions|length }})</h2>
+                    {% if sessions|length > 1 %}
+                    <form action="{{ url_for('auth.terminate_all_sessions') }}" method="POST" class="inline">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="px-3 py-1 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors">
+                            Terminate All Other Sessions
+                        </button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+            
+            {% if sessions %}
+            <div class="divide-y divide-white/5">
+                {% for session in sessions %}
+                <div class="px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between {% if session.session_token == current_session_token %}bg-accent/10{% endif %} hover:bg-accent/5 transition-colors">
+                    <div class="flex-1">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                {% if session.device_info == "iPhone" or session.device_info == "iPad" %}
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
+                                </svg>
+                                {% elif session.device_info == "Android" %}
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
+                                </svg>
+                                {% elif session.device_info == "Windows" or session.device_info == "Mac" or session.device_info == "Linux" %}
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25" />
+                                </svg>
+                                {% else %}
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
+                                </svg>
+                                {% endif %}
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-sm font-medium text-white">
+                                    {% if session.device_info %}
+                                    {{ session.device_info }}
+                                    {% else %}
+                                    Unknown Device
+                                    {% endif %}
+                                    {% if session.session_token == current_session_token %}
+                                    <span class="ml-2 px-2 py-0.5 text-xs font-medium bg-accent/20 text-accent rounded-full">Current Session</span>
+                                    {% endif %}
+                                </h3>
+                                <div class="mt-1 text-xs text-white/60">
+                                    <p>IP Address: {{ session.ip_address or 'Unknown' }}</p>
+                                    <p>Created: {{ session.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                                    <p>Last Active: {{ session.last_active.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                                    <p>Expires: {{ session.expires_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {% if session.session_token != current_session_token %}
+                    <div class="mt-4 sm:mt-0 sm:ml-4">
+                        <form action="{{ url_for('auth.terminate_session', session_id=session.id) }}" method="POST" class="inline">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button type="submit" class="px-3 py-1 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors">
+                                Terminate
+                            </button>
+                        </form>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="px-6 py-8 text-center">
+                <p class="text-white/60">No active sessions found.</p>
+            </div>
+            {% endif %}
+            
+            <div class="px-6 py-4 bg-dark-200/30 backdrop-blur-md">
+                <h3 class="text-sm font-medium text-white">Security Tips</h3>
+                <ul class="mt-2 text-xs text-white/60 list-disc list-inside space-y-1">
+                    <li>Regularly review your active sessions and terminate any that you don't recognize.</li>
+                    <li>If you see sessions from unfamiliar locations or devices, consider changing your password.</li>
+                    <li>For maximum security, terminate all other sessions after changing your password.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

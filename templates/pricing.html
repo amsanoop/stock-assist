@@ -1,0 +1,467 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pricing.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen relative overflow-hidden bg-background">
+    <div class="pricing-hero-glow pricing-hero-glow-1"></div>
+    <div class="pricing-hero-glow pricing-hero-glow-2"></div>
+    <div class="absolute inset-0 bg-gradient-radial from-dark-100/5 via-background to-background animate-pulse-subtle"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,#ffffff05,#00000000)]"></div>
+
+    <div class="relative max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-20">
+            <div class="max-w-[90vw] mx-auto">
+                <h2 class="typewriter break-words text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-accent via-neon-400 to-highlight bg-clip-text text-transparent sm:break-normal relative inline-block">
+                    Choose Your Plan
+                    <div class="absolute -bottom-2 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent to-transparent"></div>
+                </h2>
+            </div>
+            <p class="mt-6 text-lg sm:text-xl text-white/70 animate-fade-in">
+                Unlock the power of AI-driven stock analysis with our flexible subscription options
+            </p>
+        </div>
+
+        <div class="mt-16 space-y-12 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-8">
+            <div class="tilt-card h-full" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.1">
+                <div class="pricing-card h-full rounded-2xl border border-white/10 overflow-hidden backdrop-blur-xl flex flex-col">
+                    <div class="tilt-content p-8 flex-grow">
+                        <h3 class="text-2xl font-bold text-white mb-4 flex items-center">
+                            <svg class="w-6 h-6 mr-2 text-accent/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            Free
+                        </h3>
+                        <div class="flex items-baseline text-white mb-6">
+                            <span class="text-6xl font-extrabold tracking-tight bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">$0</span>
+                            <span class="ml-2 text-2xl text-white/60">/month</span>
+                        </div>
+
+                        <ul class="mt-6 space-y-4">
+                            <li class="flex space-x-3 pricing-feature">
+                                <svg class="flex-shrink-0 h-5 w-5 text-accent check-icon" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7" />
+                                </svg>
+                                <span class="text-white/70">Basic stock search</span>
+                            </li>
+                            <li class="flex space-x-3 pricing-feature">
+                                <svg class="flex-shrink-0 h-5 w-5 text-accent check-icon" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7" />
+                                </svg>
+                                <span class="text-white/70">3 messages per stock (6 total)</span>
+                            </li>
+                            <li class="flex space-x-3 pricing-feature">
+                                <svg class="flex-shrink-0 h-5 w-5 text-accent check-icon" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7" />
+                                </svg>
+                                <span class="text-white/70">Access to aggregated data</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mt-auto border-t border-white/10">
+                        {% if current_user.is_authenticated and (current_user.subscription_id and current_user.subscription_id >= 1 or current_user.subscription.name == "Admin") %}
+                            <button disabled class="block w-full py-4 text-center font-medium text-white/50 cursor-not-allowed opacity-50">
+                                <span class="relative z-10">Start Free</span>
+                            </button>
+                        {% else %}
+                            <a href="{% if current_user.is_authenticated %}{{ url_for('payments.checkout', subscription_id=1) }}{% else %}{{ url_for('auth.register', next=url_for('payments.checkout', subscription_id=1)) }}{% endif %}"
+                                class="block w-full py-4 text-center font-medium text-white hover:bg-accent/20 transition-all duration-300 group relative overflow-hidden">
+                                <span class="relative z-10">Start Free</span>
+                                <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-accent group-hover:w-full transition-all duration-300"></span>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="tilt-card h-full" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.1">
+                <div class="pricing-card h-full rounded-2xl border border-accent/30 overflow-hidden backdrop-blur-xl glow-shadow relative flex flex-col">
+                    <div class="absolute -top-[-15px] right-5">
+                        <div class="inline-flex px-4 py-1 rounded-full text-xs font-semibold bg-gradient-to-r from-accent to-accent/90 text-black animate-bounce shadow-lg shadow-accent/20">
+                            Popular
+                        </div>
+                    </div>
+                    <div class="tilt-content p-8 flex-grow">
+                        <h3 class="text-2xl font-bold text-white mb-4 flex items-center">
+                            <svg class="w-6 h-6 mr-2 text-accent/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                            Starter
+                        </h3>
+                        <div class="flex items-baseline text-white mb-6">
+                            <span class="text-6xl font-extrabold tracking-tight bg-gradient-to-r from-accent-light to-accent bg-clip-text text-transparent">$5</span>
+                            <span class="ml-2 text-2xl text-white/60">/month</span>
+                        </div>
+
+                        <ul class="mt-6 space-y-4">
+                            <li class="flex space-x-3 pricing-feature">
+                                <svg class="flex-shrink-0 h-5 w-5 text-accent check-icon" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7" />
+                                </svg>
+                                <span class="text-white/70">50 AI messages per day</span>
+                            </li>
+                            <li class="flex space-x-3 pricing-feature">
+                                <svg class="flex-shrink-0 h-5 w-5 text-accent check-icon" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7" />
+                                </svg>
+                                <span class="text-white/70">Up to 15 images per day</span>
+                            </li>
+                            <li class="flex space-x-3 pricing-feature">
+                                <svg class="flex-shrink-0 h-5 w-5 text-accent check-icon" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7" />
+                                </svg>
+                                <span class="text-white/70">Multi-stock chat enabled</span>
+                            </li>
+                            <li class="flex space-x-3 pricing-feature">
+                                <svg class="flex-shrink-0 h-5 w-5 text-accent check-icon" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7" />
+                                </svg>
+                                <span class="text-white/70">Expanded historical data</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mt-auto border-t border-white/10">
+                        {% if current_user.is_authenticated and (current_user.subscription_id and current_user.subscription_id >= 2 or current_user.subscription.name == "Admin") %}
+                            <button disabled class="block w-full py-4 text-center font-medium text-black/50 bg-gradient-to-r from-accent/50 to-accent/40 cursor-not-allowed opacity-50">
+                                Get Started
+                            </button>
+                        {% else %}
+                            <a href="{% if current_user.is_authenticated %}{{ url_for('payments.checkout', subscription_id=2) }}{% else %}{{ url_for('auth.register', next=url_for('payments.checkout', subscription_id=2)) }}{% endif %}"
+                                class="shimmer-btn block w-full py-4 text-center font-medium text-black bg-gradient-to-r from-accent to-accent/90 hover:from-accent-light hover:to-accent transition-all duration-300">
+                                Get Started
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="tilt-card h-full" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.1">
+                <div class="pricing-card h-full rounded-2xl border border-white/10 overflow-hidden backdrop-blur-xl">
+                    <div class="tilt-content p-8 flex-grow">
+                        <h3 class="text-2xl font-bold text-white mb-4 flex items-center">
+                            <svg class="w-6 h-6 mr-2 text-accent/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                            </svg>
+                            Pro
+                        </h3>
+                        <div class="flex items-baseline text-white mb-6">
+                            <span class="text-6xl font-extrabold tracking-tight bg-gradient-to-r from-highlight to-highlight/70 bg-clip-text text-transparent">$15</span>
+                            <span class="ml-2 text-2xl text-white/60">/month</span>
+                        </div>
+
+                        <ul class="mt-6 space-y-4">
+                            <li class="flex space-x-3 pricing-feature">
+                                <svg class="flex-shrink-0 h-5 w-5 text-accent check-icon" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7" />
+                                </svg>
+                                <span class="text-white/70">150 AI messages per day</span>
+                            </li>
+                            <li class="flex space-x-3 pricing-feature">
+                                <svg class="flex-shrink-0 h-5 w-5 text-accent check-icon" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7" />
+                                </svg>
+                                <span class="text-white/70">Up to 50 images per day</span>
+                            </li>
+                            <li class="flex space-x-3 pricing-feature">
+                                <svg class="flex-shrink-0 h-5 w-5 text-accent check-icon" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7" />
+                                </svg>
+                                <span class="text-white/70">Premium analytics</span>
+                            </li>
+                            <li class="flex space-x-3 pricing-feature">
+                                <svg class="flex-shrink-0 h-5 w-5 text-accent check-icon" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7" />
+                                </svg>
+                                <span class="text-white/70">Advanced chat features</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="border-t border-white/10">
+                        {% if current_user.is_authenticated and (current_user.subscription_id and current_user.subscription_id >= 3 or current_user.subscription.name == "Admin") %}
+                            <button disabled class="block w-full py-4 text-center font-medium text-white/50 cursor-not-allowed opacity-50">
+                                <span class="relative z-10">Upgrade to Pro</span>
+                            </button>
+                        {% else %}
+                            <a href="{% if current_user.is_authenticated %}{{ url_for('payments.checkout', subscription_id=3) }}{% else %}{{ url_for('auth.register', next=url_for('payments.checkout', subscription_id=3)) }}{% endif %}"
+                                class="block w-full py-4 text-center font-medium text-white hover:bg-accent/20 transition-all duration-300 group relative overflow-hidden">
+                                <span class="relative z-10">Upgrade to Pro</span>
+                                <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-accent group-hover:w-full transition-all duration-300"></span>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-16 max-w-3xl mx-auto">
+            <div class="shine-effect bg-dark-200/30 backdrop-blur-xl rounded-xl border border-white/5 overflow-hidden p-8 text-center">
+                <h3 class="text-2xl font-bold mb-4 text-white flex items-center justify-center">
+                    <svg class="w-6 h-6 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
+                    </svg>
+                    Have a Subscription Key?
+                </h3>
+                <p class="text-white/70 mb-6">If you've received a subscription key, you can redeem it to activate your premium plan.</p>
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('redeem_key') }}" class="inline-flex items-center px-6 py-3 text-base font-medium text-black bg-gradient-to-r from-accent to-accent/90 hover:from-accent-light hover:to-accent rounded-lg transition-colors group relative overflow-hidden">
+                    <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-all duration-700"></span>
+                    <svg class="w-5 h-5 mr-2 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
+                    </svg>
+                    <span class="relative z-10">Redeem Your Key</span>
+                </a>
+                {% else %}
+                <div class="space-y-4">
+                    <p class="text-white/70">Sign in to your account to redeem your key.</p>
+                    <a href="{{ url_for('auth.login') }}" class="inline-flex items-center px-6 py-3 text-base font-medium text-black bg-gradient-to-r from-accent to-accent/90 hover:from-accent-light hover:to-accent rounded-lg transition-colors group relative overflow-hidden">
+                        <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-all duration-700"></span>
+                        <svg class="w-5 h-5 mr-2 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+                        </svg>
+                        <span class="relative z-10">Sign In</span>
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="mt-32">
+            <h3 class="text-3xl font-bold text-center mb-16 bg-gradient-to-r from-accent to-highlight bg-clip-text text-transparent">
+                Frequently Asked Questions
+            </h3>
+            <div class="max-w-3xl mx-auto space-y-6">
+                <div class="faq-item backdrop-blur-xl rounded-xl overflow-hidden hover:shadow-lg hover:shadow-accent/5 transition-all duration-300">
+                    <button class="w-full p-6 text-left focus:outline-none" onclick="toggleFaq(this)">
+                        <div class="flex justify-between items-center">
+                            <h4 class="text-lg font-medium text-white flex items-center">
+                                <svg class="w-5 h-5 mr-2 text-accent/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                What happens when I reach my daily message limit?
+                            </h4>
+                            <svg class="w-5 h-5 text-white/60 transform transition-transform duration-200" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path class="vertical" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 6v12" />
+                                <path class="horizontal" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="M6 12h12" />
+                            </svg>
+                        </div>
+                        <div class="answer mt-4 text-white/70 hidden">
+                            When you reach your daily message limit, you'll need to wait until the next day for your
+                            limits to reset, or you can upgrade to a higher tier for increased limits.
+                        </div>
+                    </button>
+                </div>
+
+                <div class="faq-item backdrop-blur-xl rounded-xl overflow-hidden hover:shadow-lg hover:shadow-accent/5 transition-all duration-300">
+                    <button class="w-full p-6 text-left focus:outline-none" onclick="toggleFaq(this)">
+                        <div class="flex justify-between items-center">
+                            <h4 class="text-lg font-medium text-white flex items-center">
+                                <svg class="w-5 h-5 mr-2 text-accent/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                </svg>
+                                Can I switch plans at any time?
+                            </h4>
+                            <svg class="w-5 h-5 text-white/60 transform transition-transform duration-200" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path class="vertical" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 6v12" />
+                                <path class="horizontal" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="M6 12h12" />
+                            </svg>
+                        </div>
+                        <div class="answer mt-4 text-white/70 hidden">
+                            Yes, you can upgrade or downgrade your plan at any time. Changes will take effect at the
+                            start of your next billing cycle.
+                        </div>
+                    </button>
+                </div>
+
+                <div class="faq-item backdrop-blur-xl rounded-xl overflow-hidden hover:shadow-lg hover:shadow-accent/5 transition-all duration-300">
+                    <button class="w-full p-6 text-left focus:outline-none" onclick="toggleFaq(this)">
+                        <div class="flex justify-between items-center">
+                            <h4 class="text-lg font-medium text-white flex items-center">
+                                <svg class="w-5 h-5 mr-2 text-accent/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                </svg>
+                                What kind of charts and visualizations are available?
+                            </h4>
+                            <svg class="w-5 h-5 text-white/60 transform transition-transform duration-200" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path class="vertical" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 6v12" />
+                                <path class="horizontal" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="M6 12h12" />
+                            </svg>
+                        </div>
+                        <div class="answer mt-4 text-white/70 hidden">
+                            Our platform provides various technical analysis charts, price trends, volume analysis, and
+                            comparative visualizations between multiple stocks.
+                        </div>
+                    </button>
+                </div>
+
+                <div class="faq-item backdrop-blur-xl rounded-xl overflow-hidden hover:shadow-lg hover:shadow-accent/5 transition-all duration-300">
+                    <button class="w-full p-6 text-left focus:outline-none" onclick="toggleFaq(this)">
+                        <div class="flex justify-between items-center">
+                            <h4 class="text-lg font-medium text-white flex items-center">
+                                <svg class="w-5 h-5 mr-2 text-accent/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
+                                </svg>
+                                How do subscription keys work?
+                            </h4>
+                            <svg class="w-5 h-5 text-white/60 transform transition-transform duration-200" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path class="vertical" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 6v12" />
+                                <path class="horizontal" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="M6 12h12" />
+                            </svg>
+                        </div>
+                        <div class="answer mt-4 text-white/70 hidden">
+                            Subscription keys are special codes that can be redeemed to activate a premium plan. If you've received a key, simply log in to your account, go to the "Redeem Key" page from your profile menu, and enter the key. Your account will be instantly upgraded to the corresponding plan.
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-24 text-center">
+            {% if current_user.is_authenticated and current_user.subscription_id and current_user.subscription_id >= 2 %}
+                <button disabled class="inline-flex items-center px-8 py-4 rounded-xl bg-gradient-to-r from-accent/50 to-accent/40 text-black/50 font-medium text-lg cursor-not-allowed opacity-50">
+                    <span class="relative z-10">Get Started Today</span>
+                    <svg class="w-5 h-5 ml-2 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    </svg>
+                </button>
+            {% else %}
+                <a href="{% if current_user.is_authenticated %}{{ url_for('payments.checkout', subscription_id=2) }}{% else %}{{ url_for('auth.register', next=url_for('payments.checkout', subscription_id=2)) }}{% endif %}" class="inline-flex items-center px-8 py-4 rounded-xl bg-gradient-to-r from-accent to-accent/90 hover:from-accent-light hover:to-accent text-black font-medium text-lg group transition-all duration-300 relative overflow-hidden transform hover:-translate-y-1">
+                    <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-all duration-700"></span>
+                    <span class="relative z-10">Get Started Today</span>
+                    <svg class="w-5 h-5 ml-2 relative z-10 transform transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    </svg>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const cards = document.querySelectorAll('[data-tilt]');
+
+        cards.forEach(card => {
+            card.addEventListener('mousemove', handleTilt);
+            card.addEventListener('mouseleave', resetTilt);
+        });
+
+        function handleTilt(e) {
+            const card = e.currentTarget;
+            const cardRect = card.getBoundingClientRect();
+            const cardContent = card.querySelector('.tilt-content');
+
+            const centerX = cardRect.left + cardRect.width / 2;
+            const centerY = cardRect.top + cardRect.height / 2;
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+
+            const maxTilt = 10;
+            const tiltX = ((mouseY - centerY) / cardRect.height) * maxTilt;
+            const tiltY = ((mouseX - centerX) / cardRect.width) * maxTilt;
+
+            card.style.transform = `perspective(1000px) rotateX(${-tiltX}deg) rotateY(${tiltY}deg)`;
+            if (cardContent) {
+                cardContent.style.transform = `translateZ(50px)`;
+            }
+        }
+
+        function resetTilt(e) {
+            const card = e.currentTarget;
+            const cardContent = card.querySelector('.tilt-content');
+
+            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+            if (cardContent) {
+                cardContent.style.transform = 'translateZ(0)';
+            }
+        }
+        
+        // Add animation for check icons when hovering over pricing cards
+        const pricingCards = document.querySelectorAll('.pricing-card');
+        pricingCards.forEach(card => {
+            const checkIcons = card.querySelectorAll('.check-icon');
+            const features = card.querySelectorAll('.pricing-feature');
+            
+            card.addEventListener('mouseenter', () => {
+                checkIcons.forEach((icon, index) => {
+                    setTimeout(() => {
+                        icon.classList.add('text-accent-light');
+                    }, index * 100);
+                });
+                
+                features.forEach((feature, index) => {
+                    setTimeout(() => {
+                        feature.classList.add('translate-x-1');
+                    }, index * 100);
+                });
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                checkIcons.forEach(icon => {
+                    icon.classList.remove('text-accent-light');
+                });
+                
+                features.forEach(feature => {
+                    feature.classList.remove('translate-x-1');
+                });
+            });
+        });
+    });
+
+    function toggleFaq(element) {
+        const answer = element.querySelector('.answer');
+        const icon = element.querySelector('svg');
+        const isOpen = !answer.classList.contains('hidden');
+
+        // Close all FAQs
+        document.querySelectorAll('.answer').forEach(a => a.classList.add('hidden'));
+        document.querySelectorAll('.faq-item svg').forEach(i => i.classList.remove('rotate-45'));
+
+        if (isOpen) {
+            answer.classList.add('hidden');
+            icon.classList.remove('rotate-45');
+        } else {
+            answer.classList.remove('hidden');
+            answer.style.animation = 'slideIn 0.3s ease-out';
+            icon.classList.add('rotate-45');
+        }
+    }
+</script>
+{% endblock %}

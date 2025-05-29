@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}Two-Factor Authentication | StockAssist{% endblock %}
+{% block meta_description %}Verify your identity with two-factor authentication to enhance your account security.{% endblock %}
+
+{% block content %}
+<div class="min-h-screen relative overflow-hidden bg-background">
+    <div class="hero-glow hero-glow-1"></div>
+    <div class="hero-glow hero-glow-2"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,#ffffff06,#00000000)]"></div>
+
+    <div class="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative">
+        <div class="max-w-md w-full glassmorphism rounded-2xl shadow-xl overflow-hidden border border-white/5 backdrop-blur-sm animate-fadeIn">
+            <div class="px-8 py-6 border-b border-white/10">
+                <h2 class="text-3xl font-bold text-white flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-3 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                    Verification Required
+                </h2>
+                <p class="mt-2 text-center text-sm text-white/60">
+                    Enter the verification code from your authenticator app
+                </p>
+            </div>
+
+            <div class="px-8 py-6">
+                <div class="mb-6 text-center">
+                    <div class="text-white/80 text-sm">
+                        Logging in as <span class="font-medium text-white">{{ email }}</span>
+                    </div>
+                </div>
+                
+                <form class="space-y-6" action="{{ url_for('auth.two_factor_verify') }}" method="POST">
+                    {{ form.csrf_token }}
+                    <div class="space-y-4">
+                        <div class="group">
+                            <label for="code" class="block text-sm font-medium text-white/80 mb-2 transition-all group-hover:text-white">Verification Code</label>
+                            <input id="code" name="code" type="text" required class="dark-input w-full px-4 py-3 text-lg text-center tracking-widest" placeholder="000000" maxlength="8" autocomplete="one-time-code" inputmode="numeric" autofocus>
+                            <div class="mt-2 h-0.5 w-0 bg-accent group-hover:w-full transition-all duration-300"></div>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <button type="submit" class="btn-accent w-full flex justify-center py-3 px-4 text-base font-medium">
+                            Verify
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="mt-6 text-center">
+                    <p class="text-sm text-white/60">
+                        Lost your device? Use one of your backup codes or contact support.
+                    </p>
+                    <a href="{{ url_for('auth.login') }}" class="mt-2 inline-block text-sm text-accent hover:text-accent/80 transition-colors">
+                        Return to login
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    /**
+     * Adds focus and blur event listeners to input groups for animation.
+     * Also, auto-submits the form when the code is fully entered.
+     */
+    const inputGroups = document.querySelectorAll('.group');
+
+    inputGroups.forEach(group => {
+        const input = group.querySelector('input');
+        if (input) {
+            input.addEventListener('focus', function() {
+                /**
+                 * Adds the 'animate-glow' class to the group on focus.
+                 */
+                group.classList.add('animate-glow');
+            });
+
+            input.addEventListener('blur', function() {
+                /**
+                 * Removes the 'animate-glow' class from the group on blur.
+                 */
+                group.classList.remove('animate-glow');
+            });
+        }
+    });
+    
+    const codeInput = document.getElementById('code');
+    if (codeInput) {
+        codeInput.addEventListener('input', function() {
+            /**
+             * Auto-submits the form when the code input reaches a length of 6.
+             */
+            if (this.value.length >= 6) {
+                setTimeout(() => {
+                    this.form.submit();
+                }, 300);
+            }
+        });
+    }
+});
+</script>
+{% endblock %} 

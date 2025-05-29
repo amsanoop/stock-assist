@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}Set Up Two-Factor Authentication | StockAssist{% endblock %}
+{% block meta_description %}Set up two-factor authentication to add an extra layer of security to your StockAssist account.{% endblock %}
+
+{% block content %}
+<div class="min-h-screen relative overflow-hidden bg-background flex items-center justify-center">
+    <div class="hero-glow hero-glow-1"></div>
+    <div class="hero-glow hero-glow-2"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,#ffffff06,#00000000)]"></div>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative py-16">
+        <div class="glassmorphism rounded-xl overflow-hidden border border-white/10 transition-all duration-300 hover:border-accent/20 hover:shadow-lg hover:shadow-accent/5">
+            <div class="px-6 py-5 border-b border-white/5">
+                <h1 class="text-2xl font-bold text-white">Set Up Two-Factor Authentication</h1>
+                <p class="mt-1 text-sm text-white/60">
+                    Follow these steps to set up two-factor authentication for your account.
+                </p>
+            </div>
+            
+            <div class="px-6 py-4 border-b border-white/5 bg-dark-200/30 backdrop-blur-md">
+                <h2 class="text-lg font-semibold text-white">Step 1: Scan QR Code</h2>
+                <p class="mt-1 text-sm text-white/60">
+                    Scan this QR code with your authenticator app (Google Authenticator, Authy, Microsoft Authenticator, etc.)
+                </p>
+            </div>
+            
+            <div class="p-6 border-b border-white/5 flex flex-col md:flex-row items-center gap-8">
+                <div class="flex-shrink-0 bg-white/5 p-4 rounded-lg border border-white/10">
+                    <img src="data:image/png;base64,{{ qr_code }}" alt="QR Code" class="w-48 h-48">
+                </div>
+                
+                <div class="flex-1">
+                    <h3 class="text-sm font-medium text-white mb-2">Can't scan the QR code?</h3>
+                    <p class="text-xs text-white/60 mb-4">
+                        You can manually enter this secret key into your authenticator app:
+                    </p>
+                    
+                    <div class="bg-dark-200/50 border border-white/10 rounded-lg p-3 mb-4 font-mono text-center">
+                        <div class="text-white tracking-wider select-all">{{ secret }}</div>
+                    </div>
+                    
+                    <div class="text-xs text-white/60">
+                        <p class="mb-2">Instructions:</p>
+                        <ol class="list-decimal list-inside space-y-1">
+                            <li>Open your authenticator app</li>
+                            <li>Tap the + or Add button</li>
+                            <li>Select "Enter key manually" or "Enter setup key"</li>
+                            <li>Enter "StockAssist" as the account name</li>
+                            <li>Enter the secret key shown above</li>
+                            <li>Make sure "Time-based" is selected</li>
+                            <li>Tap Add or Save</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="px-6 py-4 border-b border-white/5 bg-dark-200/30 backdrop-blur-md">
+                <h2 class="text-lg font-semibold text-white">Step 2: Verify Setup</h2>
+                <p class="mt-1 text-sm text-white/60">
+                    Enter the verification code from your authenticator app to confirm setup.
+                </p>
+            </div>
+            
+            <div class="p-6 border-b border-white/5">
+                <form action="{{ url_for('auth.two_factor_setup') }}" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="max-w-xs mx-auto">
+                        <div class="group mb-4">
+                            <label for="code" class="block text-sm font-medium text-white/80 mb-2 transition-all group-hover:text-white">Verification Code</label>
+                            <input id="code" name="code" type="text" required class="dark-input w-full px-4 py-3 text-lg text-center tracking-widest" placeholder="000000" maxlength="6" autocomplete="one-time-code" inputmode="numeric" autofocus>
+                            <div class="mt-2 h-0.5 w-0 bg-accent group-hover:w-full transition-all duration-300"></div>
+                        </div>
+                        
+                        <button type="submit" class="w-full px-4 py-3 text-sm font-medium text-black bg-accent hover:bg-accent-light rounded-lg transition-colors">
+                            Verify and Enable 2FA
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="px-6 py-4 bg-dark-200/30 backdrop-blur-md">
+                <h3 class="text-sm font-medium text-white">Important Notes</h3>
+                <ul class="mt-2 text-xs text-white/60 list-disc list-inside space-y-1">
+                    <li>You'll need to enter a verification code each time you log in.</li>
+                    <li>Make sure to keep your authenticator app or backup codes accessible.</li>
+                    <li>If you lose access to your authenticator app and backup codes, you may lose access to your account.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const inputGroups = document.querySelectorAll('.group');
+
+    inputGroups.forEach(group => {
+        const input = group.querySelector('input');
+        if (input) {
+            input.addEventListener('focus', function() {
+                group.classList.add('animate-glow');
+            });
+
+            input.addEventListener('blur', function() {
+                group.classList.remove('animate-glow');
+            });
+        }
+    });
+});
+</script>
+{% endblock %} 

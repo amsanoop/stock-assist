@@ -1,0 +1,270 @@
+{% extends "base.html" %}
+
+{% block title %}Checkout - {{ subscription.name }} Subscription{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto">
+        <div class="bg-dark-200/40 backdrop-blur-xl shadow-lg rounded-lg overflow-hidden border border-white/10">
+            <div class="bg-gradient-to-r from-accent/30 to-transparent p-6 border-b border-white/10">
+                <h1 class="text-2xl font-bold text-white">Complete Your Purchase</h1>
+                <p class="text-white/70 mt-1">You're about to upgrade to the {{ subscription.name }} plan</p>
+            </div>
+            
+            <div class="p-6">
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                    <!-- Order Summary -->
+                    <div class="lg:col-span-3 space-y-6">
+                        <div>
+                            <h2 class="text-xl font-semibold text-white mb-4">Order Summary</h2>
+                            
+                            <div class="bg-dark-300/40 rounded-lg border border-white/10 overflow-hidden">
+                                <div class="p-4 border-b border-white/10 flex justify-between items-center">
+                                    <div class="flex items-center">
+                                        {% if subscription.name == "Starter" %}
+                                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-accent to-accent/70 flex items-center justify-center mr-3">
+                                            <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                            </svg>
+                                        </div>
+                                        {% elif subscription.name == "Pro" %}
+                                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-highlight to-highlight/70 flex items-center justify-center mr-3">
+                                            <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                                            </svg>
+                                        </div>
+                                        {% else %}
+                                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-gray-400 to-gray-500 flex items-center justify-center mr-3">
+                                            <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                        </div>
+                                        {% endif %}
+                                        <div>
+                                            <h3 class="text-white font-medium">{{ subscription.name }} Subscription</h3>
+                                            <p class="text-white/60 text-sm">30 days access</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-white font-medium">${{ subscription.price }}</div>
+                                </div>
+                                
+                                <div class="p-4">
+                                    <h4 class="text-sm font-medium text-white/60 uppercase tracking-wider mb-3">Included Features</h4>
+                                    <ul class="space-y-2">
+                                        {% if subscription.features.multi_stock_chat %}
+                                        <li class="flex text-sm">
+                                            <svg class="flex-shrink-0 h-5 w-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                            </svg>
+                                            <span class="ml-2 text-white/80">Multi-stock chat</span>
+                                        </li>
+                                        {% endif %}
+                                        
+                                        {% if subscription.features.expanded_historical %}
+                                        <li class="flex text-sm">
+                                            <svg class="flex-shrink-0 h-5 w-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                            </svg>
+                                            <span class="ml-2 text-white/80">Expanded historical data</span>
+                                        </li>
+                                        {% endif %}
+                                        
+                                        {% if subscription.features.image_attachments %}
+                                        <li class="flex text-sm">
+                                            <svg class="flex-shrink-0 h-5 w-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                            </svg>
+                                            <span class="ml-2 text-white/80">Image attachments ({{ subscription.image_limit }} per day)</span>
+                                        </li>
+                                        {% endif %}
+                                        
+                                        {% if subscription.features.premium_analytics %}
+                                        <li class="flex text-sm">
+                                            <svg class="flex-shrink-0 h-5 w-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                            </svg>
+                                            <span class="ml-2 text-white/80">Premium analytics</span>
+                                        </li>
+                                        {% endif %}
+                                        
+                                        {% if subscription.features.advanced_chat %}
+                                        <li class="flex text-sm">
+                                            <svg class="flex-shrink-0 h-5 w-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                            </svg>
+                                            <span class="ml-2 text-white/80">Advanced chat features</span>
+                                        </li>
+                                        {% endif %}
+                                        
+                                        <li class="flex text-sm">
+                                            <svg class="flex-shrink-0 h-5 w-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                            </svg>
+                                            <span class="ml-2 text-white/80">{{ subscription.message_limit }} daily messages</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="p-4 border-t border-white/10">
+                                    <div class="flex justify-between text-white font-medium">
+                                        <span>Total</span>
+                                        <span>${{ subscription.price }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Payment Options -->
+                    <div class="lg:col-span-2 space-y-6">
+                        <div>
+                            <h2 class="text-xl font-semibold text-white mb-4">Payment Method</h2>
+                            
+                            <!-- Email Warning Alert -->
+                            <div class="mb-4 p-4 bg-yellow-500/20 border border-yellow-600/30 rounded-lg">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-5 w-5 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                        </svg>
+                                    </div>
+                                    <div class="ml-3">
+                                        <h3 class="text-sm font-medium text-yellow-400">Important</h3>
+                                        <div class="mt-1 text-sm text-white/80">
+                                            <p>Please make sure to use <strong>{{ current_user.email }}</strong> as your email address during payment. This ensures your subscription is correctly linked to your account.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-dark-300/40 rounded-lg border border-white/10 p-4">
+                                <div class="mb-4">
+                                    <div class="flex items-center">
+                                        <input id="crypto" name="payment-type" type="radio" checked class="h-4 w-4 text-accent focus:ring-accent border-white/30 bg-dark-400" />
+                                        <label for="crypto" class="ml-3 block text-sm font-medium text-white">
+                                            Cryptocurrency
+                                        </label>
+                                    </div>
+                                    <p class="text-white/60 text-xs mt-1 ml-7">Pay with various cryptocurrencies through OxaPay</p>
+                                </div>
+                                
+                                {% if stripe_link %}
+                                <div class="mb-4 mt-4 border-t border-white/10 pt-4">
+                                    <div class="flex items-center">
+                                        <input id="card" name="payment-type" type="radio" class="h-4 w-4 text-accent focus:ring-accent border-white/30 bg-dark-400" />
+                                        <label for="card" class="ml-3 block text-sm font-medium text-white">
+                                            Credit/Debit Card
+                                        </label>
+                                    </div>
+                                    <p class="text-white/60 text-xs mt-1 ml-7">Pay with credit or debit card through Stripe</p>
+                                </div>
+                                {% endif %}
+                                
+                                <div id="payment-loading" class="hidden mt-4 text-center">
+                                    <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-accent"></div>
+                                    <p class="mt-2 text-white/60">Creating payment invoice...</p>
+                                </div>
+                                
+                                <div id="payment-error" class="hidden mt-4 p-4 bg-red-500/20 text-red-400 rounded-lg"></div>
+                                
+                                <div class="mt-6 space-y-4">
+                                    <button id="crypto-pay-btn" class="w-full bg-gradient-to-r from-accent to-accent/90 hover:from-accent-light hover:to-accent text-black font-medium py-3 px-4 rounded-lg transition-all duration-300 flex items-center justify-center">
+                                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        Pay with Crypto
+                                    </button>
+                                    
+                                    {% if stripe_link %}
+                                    <a id="card-pay-btn" href="{{ stripe_link }}" class="hidden w-full bg-gradient-to-r from-highlight to-highlight/90 hover:from-highlight-light hover:to-highlight text-black font-medium py-3 px-4 rounded-lg transition-all duration-300 flex items-center justify-center">
+                                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                                        </svg>
+                                        Pay with Card
+                                    </a>
+                                    <p id="card-reminder" class="hidden text-xs text-center mt-2 text-highlight/70">
+                                        Remember to use <strong>{{ current_user.email }}</strong> as your email during Stripe checkout!
+                                    </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center text-white/60 text-sm">
+                            <p>By completing this purchase, you agree to our <a href="{{ url_for('terms') }}" class="text-accent hover:underline">Terms of Service</a>.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const cryptoPayBtn = document.getElementById('crypto-pay-btn');
+    const paymentLoading = document.getElementById('payment-loading');
+    const paymentError = document.getElementById('payment-error');
+    
+    {% if stripe_link %}
+    const cryptoRadio = document.getElementById('crypto');
+    const cardRadio = document.getElementById('card');
+    const cardPayBtn = document.getElementById('card-pay-btn');
+    const cardReminder = document.getElementById('card-reminder');
+    
+    cryptoRadio.addEventListener('change', function() {
+        if (this.checked) {
+            cryptoPayBtn.classList.remove('hidden');
+            cardPayBtn.classList.add('hidden');
+            cardReminder.classList.add('hidden');
+        }
+    });
+    
+    cardRadio.addEventListener('change', function() {
+        if (this.checked) {
+            cryptoPayBtn.classList.add('hidden');
+            cardPayBtn.classList.remove('hidden');
+            cardReminder.classList.remove('hidden');
+        }
+    });
+    {% endif %}
+    
+    cryptoPayBtn.addEventListener('click', function() {
+        paymentLoading.classList.remove('hidden');
+        paymentError.classList.add('hidden');
+        cryptoPayBtn.disabled = true;
+        
+        fetch('{{ url_for("payments.create_invoice") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': '{{ csrf_token() }}'
+            },
+            body: new URLSearchParams({
+                'subscription_id': '{{ subscription.id }}'
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            paymentLoading.classList.add('hidden');
+            
+            if (data.success) {
+                window.location.href = data.payment_url;
+            } else {
+                paymentError.textContent = data.message || 'An error occurred while creating the payment';
+                paymentError.classList.remove('hidden');
+                cryptoPayBtn.disabled = false;
+            }
+        })
+        .catch(error => {
+            paymentLoading.classList.add('hidden');
+            paymentError.textContent = 'An error occurred: ' + error.message;
+            paymentError.classList.remove('hidden');
+            cryptoPayBtn.disabled = false;
+        });
+    });
+});
+</script>
+{% endblock %} 

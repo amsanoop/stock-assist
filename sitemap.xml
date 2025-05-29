@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+   <!-- Main Pages -->
+   <url>
+      <loc>https://yourdomain.com/</loc>
+      <changefreq>daily</changefreq>
+      <priority>1.0</priority>
+   </url>
+   <url>
+      <loc>https://yourdomain.com/stocks</loc>
+      <changefreq>daily</changefreq>
+      <priority>0.9</priority>
+   </url>
+   <url>
+      <loc>https://yourdomain.com/chat</loc>
+      <changefreq>daily</changefreq>
+      <priority>0.9</priority>
+   </url>
+   <url>
+      <loc>https://yourdomain.com/news</loc>
+      <changefreq>hourly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://yourdomain.com/team</loc>
+      <changefreq>weekly</changefreq>
+      <priority>0.7</priority>
+   </url>
+   <url>
+      <loc>https://yourdomain.com/pricing</loc>
+      <changefreq>weekly</changefreq>
+      <priority>0.7</priority>
+   </url>
+   
+   <!-- Auth Pages -->
+   <url>
+      <loc>https://yourdomain.com/auth/login</loc>
+      <changefreq>monthly</changefreq>
+      <priority>0.6</priority>
+   </url>
+   <url>
+      <loc>https://yourdomain.com/auth/register</loc>
+      <changefreq>monthly</changefreq>
+      <priority>0.6</priority>
+   </url>
+   <url>
+      <loc>https://yourdomain.com/auth/referrals</loc>
+      <changefreq>weekly</changefreq>
+      <priority>0.5</priority>
+   </url>
+   
+   <!-- Payment Pages -->
+   <url>
+      <loc>https://yourdomain.com/payments/plans</loc>
+      <changefreq>weekly</changefreq>
+      <priority>0.7</priority>
+   </url>
+   <url>
+      <loc>https://yourdomain.com/payments/success</loc>
+      <changefreq>monthly</changefreq>
+      <priority>0.4</priority>
+   </url>
+   
+   <!-- User Features -->
+   <url>
+      <loc>https://yourdomain.com/redeem</loc>
+      <changefreq>weekly</changefreq>
+      <priority>0.6</priority>
+   </url>
+   
+   <!-- Legal & Info Pages -->
+   <url>
+      <loc>https://yourdomain.com/terms</loc>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+   </url>
+   <url>
+      <loc>https://yourdomain.com/security-policy</loc>
+      <changefreq>monthly</changefreq>
+      <priority>0.3</priority>
+   </url>
+   
+   <!-- System Pages -->
+   <url>
+      <loc>https://yourdomain.com/offline</loc>
+      <changefreq>monthly</changefreq>
+      <priority>0.1</priority>
+   </url>
+</urlset>

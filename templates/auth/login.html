@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="min-h-screen relative overflow-hidden bg-background">
+    <div class="hero-glow hero-glow-1"></div>
+    <div class="hero-glow hero-glow-2"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,#ffffff06,#00000000)]"></div>
+
+    <div class="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative">
+        <div class="max-w-md w-full bg-gray-800/80 rounded-2xl shadow-xl overflow-hidden border border-white/5 backdrop-blur-sm animate-fadeIn">
+            <div class="px-8 py-6 border-b border-white/10">
+                <h2 class="text-3xl font-bold text-white flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-3 text-accent" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd" />
+                    </svg>
+                    Sign in to StockAssist
+                </h2>
+                <p class="mt-2 text-center text-sm text-white/60">
+                    Or
+                    <a href="{{ url_for('auth.register') }}" class="font-medium text-accent hover:text-accent/80 transition-colors">
+                        create a new account
+                    </a>
+                </p>
+            </div>
+
+            <div class="px-8 py-6">
+                <form class="space-y-6" action="{{ url_for('auth.login') }}" method="POST">
+                    {{ form.csrf_token }}
+                    <div class="space-y-4">
+                        <div class="group">
+                            <label for="email" class="block text-sm font-medium text-white/80 mb-2 transition-all group-hover:text-white">Email address</label>
+                            <input id="email" name="email" type="email" required class="dark-input w-full px-4 py-3 text-lg" placeholder="Enter your email">
+                            <div class="mt-2 h-0.5 w-0 bg-accent group-hover:w-full transition-all duration-300"></div>
+                        </div>
+                        <div class="group">
+                            <label for="password" class="block text-sm font-medium text-white/80 mb-2 transition-all group-hover:text-white">Password</label>
+                            <input id="password" name="password" type="password" required class="dark-input w-full px-4 py-3 text-lg" placeholder="Enter your password">
+                            <div class="mt-2 h-0.5 w-0 bg-accent group-hover:w-full transition-all duration-300"></div>
+                        </div>
+                    </div>
+
+                    <div class="hidden">
+                        <input type="text" name="website" autocomplete="off" tabindex="-1">
+                    </div>
+
+                    <div class="flex items-center">
+                        <input id="remember" name="remember" type="checkbox" class="h-4 w-4 bg-gray-800 border-gray-700 text-accent focus:ring-accent rounded transition-colors">
+                        <label for="remember" class="ml-2 block text-sm text-white/80">
+                            Remember me
+                        </label>
+                    </div>
+
+                    <div class="flex justify-center mt-4">
+                        {{ turnstile }}
+                    </div>
+
+                    <div class="pt-2">
+                        <button type="submit" class="btn-accent w-full flex justify-center py-3 px-4 text-base font-medium">
+                            Sign in
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    /**
+     * Adds input focus effects to input groups.
+     */
+    const inputGroups = document.querySelectorAll('.group');
+
+    inputGroups.forEach(group => {
+        const input = group.querySelector('input');
+        if (input) {
+            input.addEventListener('focus', function() {
+                group.classList.add('animate-glow');
+            });
+
+            input.addEventListener('blur', function() {
+                group.classList.remove('animate-glow');
+            });
+        }
+    });
+});
+</script>
+{% endblock %}

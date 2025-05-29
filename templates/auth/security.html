@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+
+{% block title %}Security Settings | StockAssist{% endblock %}
+{% block meta_description %}Manage your account security settings, including two-factor authentication, to keep your StockAssist account protected.{% endblock %}
+
+{% block content %}
+<div class="min-h-screen relative overflow-hidden bg-background flex items-center justify-center">
+    <div class="hero-glow hero-glow-1"></div>
+    <div class="hero-glow hero-glow-2"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,#ffffff06,#00000000)]"></div>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative py-16">
+        <div class="glassmorphism rounded-xl overflow-hidden border border-white/10 transition-all duration-300 hover:border-accent/20 hover:shadow-lg hover:shadow-accent/5">
+            <div class="px-6 py-5 border-b border-white/5">
+                <h1 class="text-2xl font-bold text-white">Security Settings</h1>
+                <p class="mt-1 text-sm text-white/60">
+                    Manage your account security settings to keep your StockAssist account protected.
+                </p>
+            </div>
+            
+            <div class="px-6 py-4 border-b border-white/5 bg-dark-200/30 backdrop-blur-md">
+                <h2 class="text-lg font-semibold text-white">Two-Factor Authentication (2FA)</h2>
+                <p class="mt-1 text-sm text-white/60">
+                    Add an extra layer of security to your account by requiring a verification code in addition to your password.
+                </p>
+            </div>
+            
+            <div class="p-6 border-b border-white/5">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <div class="flex items-center">
+                            {% if current_user.two_factor_enabled %}
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-500/20 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-sm font-medium text-white">Two-Factor Authentication is enabled</h3>
+                                <p class="text-xs text-white/60 mt-1">Your account is protected with an additional layer of security.</p>
+                            </div>
+                            {% else %}
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-yellow-500/20 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-sm font-medium text-white">Two-Factor Authentication is not enabled</h3>
+                                <p class="text-xs text-white/60 mt-1">We recommend enabling 2FA to protect your account.</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div>
+                        {% if current_user.two_factor_enabled %}
+                        <button type="button" class="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors" onclick="showDisableModal()">
+                            Disable 2FA
+                        </button>
+                        {% else %}
+                        <a href="{{ url_for('auth.two_factor_setup') }}" class="inline-block px-4 py-2 text-sm font-medium text-black bg-accent hover:bg-accent-light rounded-lg transition-colors">
+                            Enable 2FA
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="px-6 py-4 border-b border-white/5 bg-dark-200/30 backdrop-blur-md">
+                <h2 class="text-lg font-semibold text-white">Active Sessions</h2>
+                <p class="mt-1 text-sm text-white/60">
+                    Manage your active sessions across different devices.
+                </p>
+            </div>
+            
+            <div class="p-6">
+                <a href="{{ url_for('auth.sessions') }}" class="inline-block px-4 py-2 text-sm font-medium text-white border border-white/20 hover:border-accent/50 hover:bg-accent/10 rounded-lg transition-colors">
+                    Manage Sessions
+                </a>
+            </div>
+            
+            <div class="px-6 py-4 bg-dark-200/30 backdrop-blur-md">
+                <h3 class="text-sm font-medium text-white">Security Tips</h3>
+                <ul class="mt-2 text-xs text-white/60 list-disc list-inside space-y-1">
+                    <li>Use a strong, unique password for your StockAssist account.</li>
+                    <li>Enable two-factor authentication for an extra layer of security.</li>
+                    <li>Regularly review your active sessions and terminate any that you don't recognize.</li>
+                    <li>Never share your password or verification codes with anyone.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Disable 2FA Modal -->
+<div id="disableModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+        <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+            <div class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+        </div>
+        
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+        
+        <div class="inline-block glassmorphism rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+            <div class="px-6 py-5 border-b border-white/5">
+                <h3 class="text-lg font-medium text-white">Disable Two-Factor Authentication</h3>
+                <p class="mt-1 text-sm text-white/60">
+                    Please confirm that you want to disable two-factor authentication. This will make your account less secure.
+                </p>
+            </div>
+            
+            <form action="{{ url_for('auth.two_factor_disable') }}" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div class="px-6 py-4">
+                    <div class="mb-4">
+                        <label for="password" class="block text-sm font-medium text-white/80 mb-2">Confirm your password</label>
+                        <input type="password" id="password" name="password" required class="dark-input w-full px-4 py-2 text-base" placeholder="Enter your password">
+                    </div>
+                    
+                    <div class="bg-red-500/10 border border-red-500/20 rounded-lg p-3 mb-4">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm text-red-500">
+                                    Warning: Disabling 2FA will remove this additional security layer from your account.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="px-6 py-4 bg-dark-200/50 flex flex-row-reverse">
+                    <button type="submit" class="ml-3 px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors">
+                        Disable 2FA
+                    </button>
+                    <button type="button" class="px-4 py-2 text-sm font-medium text-white bg-gray-600 hover:bg-gray-700 rounded-lg transition-colors" onclick="hideDisableModal()">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function showDisableModal() {
+    /**
+     * Shows the disable modal and prevents scrolling on the body.
+     */
+    document.getElementById('disableModal').classList.remove('hidden');
+    document.body.classList.add('overflow-hidden');
+}
+
+function hideDisableModal() {
+    /**
+     * Hides the disable modal and allows scrolling on the body.
+     */
+    document.getElementById('disableModal').classList.add('hidden');
+    document.body.classList.remove('overflow-hidden');
+}
+
+document.addEventListener('click', function(event) {
+    /**
+     * Closes the modal when clicking outside the modal content.
+     * @param {Event} event - The click event.
+     */
+    const modal = document.getElementById('disableModal');
+    const modalContent = modal.querySelector('div > div:last-child');
+
+    if (modal && !modal.classList.contains('hidden') && !modalContent.contains(event.target)) {
+        hideDisableModal();
+    }
+});
+
+document.addEventListener('keydown', function(event) {
+    /**
+     * Closes the modal when the Escape key is pressed.
+     * @param {KeyboardEvent} event - The keydown event.
+     */
+    if (event.key === 'Escape') {
+        hideDisableModal();
+    }
+});
+</script>
+{% endblock %} 

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<browserconfig>
+    <msapplication>
+        <tile>
+            <square70x70logo src="/icons/mstile-70x70.png"/>
+            <square150x150logo src="/icons/mstile-150x150.png"/>
+            <square310x310logo src="/icons/mstile-310x310.png"/>
+            <wide310x150logo src="/icons/mstile-310x150.png"/>
+            <TileColor>#4f46e5</TileColor>
+            <TileImage src="/icons/mstile-144x144.png"/>
+            <StartupImage src="/icons/startup.png"/>
+            <BadgeLogo src="/icons/badge.png"/>
+            <LockScreenLogo src="/icons/lockscreen.png"/>
+            <ShortName>StockAssist</ShortName>
+            <ShowName>alllogos</ShowName>
+            <Frequency>30</Frequency>
+            <Polling>
+                <StartTime>0001-01-01T00:00:00Z</StartTime>
+                <EndTime>9999-12-31T23:59:59Z</EndTime>
+                <Frequency>30</Frequency>
+            </Polling>
+            <Notification>
+                <Text1>StockAssist</Text1>
+                <Text2>Real-time AI stock analysis and trading insights</Text2>
+            </Notification>
+        </tile>
+    </msapplication>
+</browserconfig> 
